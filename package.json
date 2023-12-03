@@ -4,7 +4,7 @@
   "private": false,
   "scripts": {
     "start": "npm run client & npm run server",
-    "server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces Server/main.jsx",
+    "server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces Server/index.jsx",
     "client": "vite Client --host",
     "preview": "should automatically turn windows.prod to true and run the server only",
     "build": "vite build Client --watch && npm run move-js-file",
