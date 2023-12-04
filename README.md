@@ -24,9 +24,35 @@ Every request by a client is processed by /server/index.js which renders client/
 Every file from client/assets/ is automatically served at yoursite.com/assets/
 The index.jsx autoincludes itself in the <head> tag so that it can hydrates the app in the browser
 ```jsx
-<script rel="preconnect" type="module" crossorigin
-          src={window.dev ? "http://localhost:3456/index.jsx" : "./dist-assets/index.js"}>
-</script>
+function App() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Deno + Vite + Preact!</title>
+        <meta name="description" content="Future is here" />
+        <meta property="og:title" content="Andrea Futuri" />
+        <meta property="og:description" content="Future is here" />
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="script-src 'self' 'unsafe-inline' http://localhost:3456;"
+        />
+        <script
+          rel="preconnect"
+          type="module"
+          crossorigin
+          src={
+            window.dev
+              ? "http://localhost:3456/index.jsx"
+              : "./dist-assets/index.js"
+          }
+        ></script>
+      </head>
+      <body>Hello World</body>
+    </html>
+  );
+}
 ```
 
 When your app is ready for production you can compile it with "npm run build" or "npm run preview" which will also start the server in prod mode for you to test it.
