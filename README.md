@@ -11,7 +11,7 @@ This project is a minimal template for building a server-side rendered Preact ap
 
 - **index.jsx**: The entry point for the server-side application. [select this with Deno deploy]
   It renders the main.jsx component and returns it for every request. It also serves static files of /client/assets directory
-- **deno.json**: Server configuration containing the path of the import map and Preact config. This file may not be necessary when using React.
+- **deno.json**: Server configuration. This file may not be necessary when using React.
 
   Add any files that has server logic here (like apis or stuff like that)
 
@@ -19,7 +19,7 @@ This project is a minimal template for building a server-side rendered Preact ap
 ### /client
 
 - **index.jsx**: The entry point for the front-end application. It hydrates the HTML tags returned from main.jsx in the document after the server finishes rendering.
-- **vite.config.js**: Basic Vite configuration for Preact. This file may become optional in the future.
+- **vite.config.js**: Client configuration. This file may become optional in the future.
 
   Add any file that has client logic here (like front-end functions) and any front-end static files under /client/assets
 
