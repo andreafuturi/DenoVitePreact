@@ -17,10 +17,10 @@ async function handler(_req) {
   const { pathname } = new URL(_req.url);
 
   //vite build dist serving for prod mode (needed to hydrate the app or to serve general static files)
-  if (pathname.startsWith("/assets/")) {
+  if (pathname.startsWith("/dist-assets/")) {
     return serveDir(_req, {
       fsRoot: "client/assets/dist/assets",
-      urlRoot: "assets",
+      urlRoot: "dist-assets",
     });
   }
 

@@ -19,7 +19,9 @@ function App() {
           type="module"
           crossorigin
           src={
-            window.dev ? "http://localhost:3456/index.jsx" : "./assets/index.js"
+            window.dev
+              ? "http://localhost:3456/index.jsx"
+              : "./dist-assets/index.js"
           }
         ></script>
       </head>
