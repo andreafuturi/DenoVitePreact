@@ -11,7 +11,7 @@
     "build": "npm run create-index && vite build client --outDir assets/dist && npm run delete-index",
     "final": "deno pack server or deno bundle server",
     "deploy": "npm run build && npm run final",
-    "publish": "rm -d -r ./node_modules && git publish && npm i",
+    "publish": "rm -d -r ./node_modules && rm package-lock.json && rm server/deno.lock && git publish && npm i",
     "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./index.jsx\"></script>' > ./client/index.html",
     "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
   },
