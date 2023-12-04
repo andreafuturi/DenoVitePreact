@@ -1,0 +1,26 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "node_modules": true,
+    "README.md": true,
+    "package-lock.json": true,
+    "server/deno.lock": true,
+    "server/deno.json": true,
+    "client/vite.config.js": true,
+    ".vscode": true
+  },
+  "hide-files.files": [
+    "node_modules",
+    "README.md",
+    "package-lock.json",
+    "server/deno.lock",
+    "server/deno.json",
+    "client/vite.config.js",
+    ".vscode"
+  ]
+}

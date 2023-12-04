@@ -3,13 +3,17 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "start": "npm run client & npm run server",
-    "server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/index.jsx",
-    "client": "vite client --host",
-    "preview": "should automatically turn windows.prod to true and run the server only",
-    "build": "vite build client && npm run move-js-file",
-    "final": "deno server pack",
-    "move-js-file": "mv ./client/dist/assets/index.*.js ./client/dist/assets/index.js && mv ./client/dist/assets/index.js ./client"
+    "start": "npm run dev-client & npm run dev-server",
+    "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/index.jsx",
+    "dev-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/index.jsx --dev",
+    "dev-client": "vite client --host",
+    "preview": "npm run build && npm run prod-server",
+    "build": "npm run create-index && vite build client --outDir assets/dist && npm run delete-index",
+    "final": "deno pack server or deno bundle server",
+    "deploy": "npm run build && npm run final",
+    "publish": "rm -d -r ./node_modules && git publish && npm i",
+    "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./index.jsx\"></script>' > ./client/index.html",
+    "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
   },
   "dependencies": {
     "preact": "^10.8.1",

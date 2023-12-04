@@ -3,7 +3,6 @@ import Main from "./main.jsx";
 
 //helpers
 window.isBrowser = typeof document !== "undefined";
-window.prod = false;
 
 if (window.isBrowser) {
   const root = document.querySelector("html");
