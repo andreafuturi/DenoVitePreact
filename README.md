@@ -10,7 +10,7 @@ This project is a minimal template for building a server-side rendered Preact ap
 ### /server
 
 - **index.jsx**: The entry point for the server-side application. [select this with Deno deploy]
-  It renders the main.jsx component and returns it for every request. It also serves static files of /client/assets directory
+  It renders the front-end index.jsx exported component and returns it for every request. It also serves static files of /client/assets directory at /assets
 - **deno.json**: Server configuration. This file may not be necessary when using React.
 
   *Add any files that has server logic here (like apis or stuff like that)*
