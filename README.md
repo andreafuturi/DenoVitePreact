@@ -61,6 +61,8 @@ function App() {
     </html>
   );
 }
+render(<App />);
+export default App;
 ```
 
 When your app is ready for production you can compile it with "npm run build" or "npm run preview" which will also start the server in prod mode for you to test it.
