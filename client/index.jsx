@@ -1,6 +1,8 @@
-import { hydrate } from "preact";
+import { render } from "preacting";
 
 function App() {
+  if (window.isBrowser) console.log("In the browser!");
+  else console.log("In the server!");
   return (
     <html lang="en">
       <head>
@@ -25,20 +27,10 @@ function App() {
           }
         ></script>
       </head>
-      <body>Ok perfetto</body>
+      <body>Hello World</body>
     </html>
   );
 }
 
 render(<App />);
-
-function render(app) {
-  //helpers
-  window.isBrowser = typeof document !== "undefined";
-  if (!window.isBrowser) return;
-  const root = document.querySelector("html");
-  root.remove();
-  hydrate(app, document);
-}
-
 export default App;

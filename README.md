@@ -69,7 +69,7 @@ When your app is ready for production you can compile it with "npm run build" or
 
 
 ## Limitatations
-- packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
+- Unless you're in server/index.jsx packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
 -  After installing a package with npm install, you must reference its name in importMap.json for it to work. For example:
 
 ```json
