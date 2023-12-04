@@ -4,26 +4,35 @@ This project is a minimal template for building a server-side rendered Preact ap
 
 ## Project Structure
 
-
-
-
 ### /server
 
-- **index.jsx**: The entry point for the server-side application. [select this with Deno deploy].
-  
-  It renders the front-end index.jsx exported component and returns it for every request. It also serves static files of /client/assets directory at /assets
-- **deno.json**: Server configuration. This file may not be necessary when using React.
+- **index.jsx**: The entry point for the server-side application. [select this with Deno Deploy].
+- **deno.json**: Server configuration file.
 
   *Add any files that has server logic here (like apis or stuff like that)*
 
 
 ### /client
 
-- **index.jsx**: The entry point for the front-end application. It hydrates the HTML tags in the document after the server finishes rendering it.
-- **vite.config.js**: Client configuration. This file may become optional in the future.
+- **index.jsx**: The entry point for the front-end application.
+- **vite.config.js**: Client configuration file.
 
-  *Add any file that has client logic here (like front-end functions) and any front-end static files under /client/assets*
+  *Add any file that has client logic here (like front-end functions, UI) or static served files under /client/assets*
   
+## How it works?
+Every request by a client is processed by /server/index.js which renders client/index.jsx at every route (You can easily setup server side routing if you want).
+Every file from client/assets/ is automatically served at yoursite.com/assets/
+The index.jsx autoincludes itself in the <head> tag so that it can hydrates the app in the browser
+```jsx
+<script rel="preconnect" type="module" crossorigin
+          src={window.dev ? "http://localhost:3456/index.jsx" : "./dist-assets/index.js"}>
+</script>
+```
+
+When your app is ready for production you can compile it with "npm run build" or "npm run preview" which will also start the server in prod mode for you to test it.
+
+
+
 
 ## Limitatations
 - packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
@@ -56,7 +65,7 @@ It would be nice to implement a isomorphic router and SSG as default for no java
 1. Clone this repository.
 2. Install dependencies with `npm install`.
 3. Start the application on localhost:8000 with `npm start`.
-4. Build the client-side code with `npm run build`.
+4. When ready build the client-side code with `npm run build`.
 6. Deploy to Deno deploy (might add a script in package.json in the future)
 
 Happy coding!
