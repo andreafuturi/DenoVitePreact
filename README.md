@@ -20,11 +20,21 @@ This project is a minimal template for building a server-side rendered Preact ap
   *Add any file that has client logic here (like front-end functions, UI) or static served files under /client/assets*
   
 ## How it works?
+Deno is running on port 8000
 Every request by a client is processed by /server/index.js which renders client/index.jsx at every route (You can easily setup server side routing if you want).
 Every file from client/assets/ is automatically served at yoursite.com/assets/
-The index.jsx autoincludes itself in the <head> tag so that it can hydrates the app in the browser
+
+Vite is running on port 3456 in dev mode, when compiled it is served from assets/dist at youtsite.com/dist-assets/
+The client/index.jsx auto injects itself in the <head> tag so that it can hydrates the app in the browser and continue rendering
+
 ```jsx
 function App() {
+
+ if (window.isBrowser)
+  console.log("In the browser!")
+ else
+  console.log("In the server!")
+
   return (
     <html lang="en">
       <head>
