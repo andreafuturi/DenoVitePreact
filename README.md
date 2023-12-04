@@ -30,10 +30,8 @@ The client/index.jsx auto injects itself in the <head> tag so that it can hydrat
 ```jsx
 function App() {
 
- if (window.isBrowser)
-  console.log("In the browser!")
- else
-  console.log("In the server!")
+  if (window.isBrowser) console.log("In the browser!");
+  else console.log("In the server!");
 
   return (
     <html lang="en">
