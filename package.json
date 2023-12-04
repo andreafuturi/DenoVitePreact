@@ -4,12 +4,12 @@
   "private": false,
   "scripts": {
     "start": "npm run client & npm run server",
-    "server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces Server/index.jsx",
-    "client": "vite Client --host",
+    "server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/index.jsx",
+    "client": "vite client --host",
     "preview": "should automatically turn windows.prod to true and run the server only",
-    "build": "vite build Client --watch && npm run move-js-file",
+    "build": "vite build client && npm run move-js-file",
     "final": "deno server pack",
-    "move-js-file": "mv ./Client/dist/assets/index.*.js ./Client/dist/assets/index.js && mv ./Client/dist/assets/index.js ./Client"
+    "move-js-file": "mv ./client/dist/assets/index.*.js ./client/dist/assets/index.js && mv ./client/dist/assets/index.js ./client"
   },
   "dependencies": {
     "preact": "^10.8.1",
