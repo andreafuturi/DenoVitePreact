@@ -29,23 +29,9 @@ This project is a minimal template for building a server-side rendered Preact ap
 
   *Add anything used by both client and server here*
 
-## Limitations
-- After installing a package with npm install, you must reference its name in importMap.json for it to work. For example:
 
-```json
-{
-  "imports": {
-    "preact": "https://esm.sh/preact",
-    "not-a-module": "npm:not-a-module"
-  }
-}
-```
 
-This is necessary because Vite does not understand remote imports and imports prefixed with "npm:".
-
-Before running "npm run build," you need to switch the `window.srr` variable to true in `client/index.jsx`. If you want to revert to HMR for development, you need to set it back to false. Automation for this process is being explored.
-
-This not yet tested in big applications (if Vite produces more than one index some ajdustments need to be done)
+This not yet tested in big applications
 
 
 ## Suggestions and Contributions
