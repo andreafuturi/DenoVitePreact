@@ -36,7 +36,10 @@ This project is a minimal template for building a server-side rendered Preact ap
 
 This is necessary because Vite does not understand remote imports and imports prefixed with "npm:".
 
-After running "npm run build," you need to switch the `window.srr` variable to true in `client/index.jsx`. If you want to revert to HMR for development, you need to set it back to false. Automation for this process is being explored.
+Before running "npm run build," you need to switch the `window.srr` variable to true in `client/index.jsx`. If you want to revert to HMR for development, you need to set it back to false. Automation for this process is being explored.
+
+This not yet tested in big applications (if Vite produces more than one index some ajdustments need to be done)
+
 
 ## Suggestions and Contributions
 
