@@ -1,11 +1,42 @@
 import { hydrate } from "preact";
-import Main from "./main.jsx";
 
-//helpers
-window.isBrowser = typeof document !== "undefined";
+function App() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Deno + Vite + Preact!</title>
+        <meta name="description" content="Future is here" />
+        <meta property="og:title" content="Andrea Futuri" />
+        <meta property="og:description" content="Future is here" />
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="script-src 'self' 'unsafe-inline' http://localhost:3456;"
+        />
+        <script
+          rel="preconnect"
+          type="module"
+          crossorigin
+          src={
+            window.dev ? "http://localhost:3456/index.jsx" : "./assets/index.js"
+          }
+        ></script>
+      </head>
+      <body>Ok perfetto</body>
+    </html>
+  );
+}
 
-if (window.isBrowser) {
+render(<App />);
+
+function render(app) {
+  //helpers
+  window.isBrowser = typeof document !== "undefined";
+  if (!window.isBrowser) return;
   const root = document.querySelector("html");
   root.remove();
-  hydrate(<Main />, document);
+  hydrate(app, document);
 }
+
+export default App;

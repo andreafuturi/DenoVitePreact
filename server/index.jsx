@@ -2,9 +2,10 @@ import { render as renderSSR } from "https://esm.sh/preact-render-to-string?deps
 import { refresh } from "https://deno.land/x/refresh/mod.ts";
 import { serveDir } from "https://deno.land/std@0.208.0/http/file_server.ts";
 import { parse } from "https://deno.land/std@0.208.0/flags/mod.ts";
-import Main from "../client/main.jsx";
+import App from "../client/index.jsx";
 
 window.dev = parse(Deno.args).dev;
+
 // Create refresh middleware
 const middleware = refresh();
 
@@ -25,7 +26,7 @@ async function handler(_req) {
 
   //render
   try {
-    const html = renderSSR(<Main />);
+    const html = renderSSR(<App />);
     //can't find a smarter way to pass dev info to client
     const devScript = window.dev ? "<script>window.dev=true</script>" : "";
     return new Response(devScript + html, {
