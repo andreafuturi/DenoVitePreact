@@ -1,5 +1,5 @@
 import { hydrate } from "preact";
-import Main from "../main.jsx";
+import Main from "./main.jsx";
 
 //helpers
 window.isBrowser = typeof document !== "undefined";

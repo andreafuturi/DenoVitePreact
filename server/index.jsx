@@ -1,9 +1,8 @@
 import { render as renderSSR } from "https://esm.sh/preact-render-to-string?deps=preact";
 import { refresh } from "https://deno.land/x/refresh/mod.ts";
-import Main from "../main.jsx";
 import { serveDir } from "https://deno.land/std@0.208.0/http/file_server.ts";
-
 import { parse } from "https://deno.land/std@0.208.0/flags/mod.ts";
+import Main from "../client/main.jsx";
 
 window.dev = parse(Deno.args).dev;
 // Create refresh middleware
