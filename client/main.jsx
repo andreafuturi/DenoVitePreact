@@ -1,7 +1,5 @@
 function Home() {
-  return (
-    <>
-      <html lang="en">
+  return <html lang="en">
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -22,7 +20,5 @@ function Home() {
         </head>
         <body>Ciao</body>
       </html>
-    </>
-  );
 }
-export default Home;
+export default Home
