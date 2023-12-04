@@ -26,8 +26,20 @@ This project is a minimal template for building a server-side rendered Preact ap
   
 
 ## Limitatations
-
 - packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
+-  After installing a package with npm install, you must reference its name in importMap.json for it to work. For example:
+
+```json
+{
+  "imports": {
+    "preact": "https://esm.sh/preact",
+    "not-a-module": "npm:not-a-module"
+  }
+}
+```
+
+
+This is necessary because Vite does not understand remote imports and imports prefixed with "npm:".
 - This not yet tested in big applications
 
 
