@@ -1,5 +1,5 @@
 import { hydrate } from "preact";
-import Main from "./main.jsx";
+import Main from "../main.jsx";
 
 //helpers
 window.isBrowser = typeof document !== "undefined";
@@ -9,4 +9,3 @@ if (window.isBrowser) {
   root.remove();
   hydrate(<Main />, document);
 }
-export default Main;

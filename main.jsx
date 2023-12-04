@@ -4,7 +4,7 @@ function Home() {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Andrea Futuri</title>
+        <title>Deno + Vite + Preact!</title>
         <meta name="description" content="Future is here" />
         <meta property="og:title" content="Andrea Futuri" />
         <meta property="og:description" content="Future is here" />
@@ -21,7 +21,7 @@ function Home() {
           }
         ></script>
       </head>
-      <body>Ciauuuuu</body>
+      <body>Ok perfetto</body>
     </html>
   );
 }
