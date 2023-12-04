@@ -42,6 +42,10 @@ After running "npm run build," you need to switch the `window.srr` variable to t
 
 Your suggestions and contributions are highly appreciated! Feel free to provide feedback, report issues, or contribute to making this template even better. Stay tuned for a React version for increased compatibility.
 
+## Future
+It would be nice to implement a isomorphic router and SSG as default for no javascript
+
+
 ## Getting Started
 
 1. Clone this repository.
