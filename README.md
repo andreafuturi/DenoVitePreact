@@ -18,16 +18,12 @@ This project is a minimal template for building a server-side rendered Preact ap
 
 ### /client
 
-- **index.jsx**: The entry point for the front-end application. It hydrates the HTML tags returned from main.jsx in the document after the server finishes rendering.
+- **index.jsx**: The entry point for the front-end application. It hydrates the HTML tags returned from main.jsx in the document after the server finishes rendering it.
+- **main.jsx**: The main app component that returns the HTML page.
 - **vite.config.js**: Client configuration. This file may become optional in the future.
 
   *Add any file that has client logic here (like front-end functions) and any front-end static files under /client/assets*
-
-### /
-
-- **main.jsx**: The main app component that returns the HTML page.
-
-  *Add anything used by both client and server here*
+  
 
 ## Limitatations
 
