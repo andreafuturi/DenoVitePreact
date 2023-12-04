@@ -29,9 +29,10 @@ This project is a minimal template for building a server-side rendered Preact ap
 
   *Add anything used by both client and server here*
 
+## Limitatations
 
-
-This not yet tested in big applications
+- packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
+- This not yet tested in big applications
 
 
 ## Suggestions and Contributions
@@ -46,9 +47,8 @@ It would be nice to implement a isomorphic router and SSG as default for no java
 
 1. Clone this repository.
 2. Install dependencies with `npm install`.
-3. Start the Deno server and the Vite server with `npm start`.
+3. Start the application on localhost:8000 with `npm start`.
 4. Build the client-side code with `npm run build`.
-5. Switch `window.srr` to true in `client/index.jsx` after running the build.
 6. Deploy to Deno deploy (might add a script in package.json in the future)
 
 Happy coding!
