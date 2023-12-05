@@ -2,6 +2,10 @@
     "imports": {
       "preact": "https://esm.sh/preact",
       "preact-render-to-string": "https://esm.sh/preact-render-to-string?deps=preact",
-      "preacting": "https://esm.sh/preacting?deps=preact,preact-render-to-string"
+      "preact/hooks": "https://esm.sh/preact/hooks",
+      "preact/compat": "https://esm.sh/preact/compat",
+      "@preact/signals": "https://esm.sh/@preact/signals",
+      "object-hash": "https://esm.sh/object-hash"
+
     }
   }

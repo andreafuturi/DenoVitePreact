@@ -2,6 +2,7 @@ import { render as renderSSR } from "https://esm.sh/preact-render-to-string?deps
 import { refresh } from "https://deno.land/x/refresh/mod.ts";
 import { serveDir } from "https://deno.land/std@0.208.0/http/file_server.ts";
 import { parse } from "https://deno.land/std@0.208.0/flags/mod.ts";
+import { sharedRoutes, serverOnlyRoutes } from "../routes.jsx";
 import App from "../client/index.jsx";
 
 // Create refresh middleware
@@ -32,10 +33,70 @@ async function handler(_req) {
 
   //render
   try {
-    const html = renderSSR(<App />);
-    //can't find a smarter way to pass dev info to client
-    const devScript = window.dev ? "<script>window.dev=true</script>" : "";
-    return new Response(devScript + html, {
+    window.location = { pathname: pathname };
+
+    //remove initial slash from pathname
+    const routePath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
+    const route =
+      serverOnlyRoutes[routePath] ||
+      sharedRoutes[routePath] ||
+      sharedRoutes.default;
+    //if route is a function
+    if (typeof route === "function") {
+      //reply with the result of the function in json format
+      let body = await _req.text();
+      //try to parse the body as json otherwise pass it as it is
+      try {
+        body = JSON.parse(body);
+      } catch {
+        //do nothing
+      }
+      const response = () => route(body);
+      //if the function returns a component
+      if (response()?.props) {
+        const html = renderSSR(<App>{response()}</App>);
+        return new Response(html, {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
+      }
+
+      return new Response(JSON.stringify(route(body)), {
+        headers: { "content-type": "application/json; charset=utf-8" },
+      });
+    } else if (route && !route.props) {
+      //object but not a component
+      return new Response(JSON.stringify(route), {
+        headers: { "content-type": "application/json; charset=utf-8" },
+      });
+    }
+    // window.api = {};
+    let clientScript = "window.api = {};";
+    for (const route in serverOnlyRoutes) {
+      // window.api[route] = serverOnlyRoutes[route];
+      clientScript += `
+        window.api['${route}'] = async function(parametersFromFrontend){
+          let finalResponse;
+          const res = await fetch('./${route}', {
+            method: 'POST',
+            body: JSON.stringify(parametersFromFrontend),
+          });
+          finalResponse = await res.text();
+          try {
+            finalResponse = JSON.parse(finalResponse);
+          } finally {
+            return finalResponse;
+          }
+        };
+        `;
+    }
+    const html = renderSSR(
+      <App>
+        <script>{clientScript}</script>
+        <script>window.dev=true</script>
+        {route}
+      </App>
+    );
+    return new Response(html, {
       headers: { "content-type": "text/html; charset=utf-8" },
     });
   } catch (problem) {
@@ -47,5 +108,4 @@ async function handler(_req) {
 }
 window.dev = parse(Deno.args).dev;
 Deno.serve(handler);
-
 //when in prod mode it would be nice if yarn build is run everytime so save a file (maybe we can use denon for that?)

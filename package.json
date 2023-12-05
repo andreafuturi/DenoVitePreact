@@ -12,10 +12,12 @@
     "final": "deno pack server or deno bundle server",
     "deploy": "npm run build && npm run final",
     "publish": "rm -d -r ./node_modules && rm package-lock.json && rm server/deno.lock && git publish && npm i",
-    "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./index.jsx\"></script>' > ./client/index.html",
+    "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./index.jsx\"></script><link rel=\"stylesheet\" href=\"/assets/index.css\" />' > ./client/index.html",
     "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
   },
   "dependencies": {
+    "@preact/signals": "^1.2.2",
+    "object-hash": "^3.0.0",
     "preact": "^10.8.1",
     "preact-render-to-string": "^5.2.0"
   },
