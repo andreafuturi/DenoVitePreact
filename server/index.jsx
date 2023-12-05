@@ -4,8 +4,6 @@ import { serveDir } from "https://deno.land/std@0.208.0/http/file_server.ts";
 import { parse } from "https://deno.land/std@0.208.0/flags/mod.ts";
 import App from "../client/index.jsx";
 
-window.dev = parse(Deno.args).dev;
-
 // Create refresh middleware
 const middleware = refresh();
 
@@ -24,6 +22,14 @@ async function handler(_req) {
     });
   }
 
+  //vite build dist serving for prod mode (needed to hydrate the app or to serve general static files)
+  if (pathname.startsWith("/assets/")) {
+    return serveDir(_req, {
+      fsRoot: "client/assets",
+      urlRoot: "assets",
+    });
+  }
+
   //render
   try {
     const html = renderSSR(<App />);
@@ -39,7 +45,7 @@ async function handler(_req) {
     );
   }
 }
-
+window.dev = parse(Deno.args).dev;
 Deno.serve(handler);
 
 //when in prod mode it would be nice if yarn build is run everytime so save a file (maybe we can use denon for that?)
