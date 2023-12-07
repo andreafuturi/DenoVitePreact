@@ -4,8 +4,7 @@
       "preact-render-to-string": "https://esm.sh/preact-render-to-string?deps=preact",
       "preact/hooks": "https://esm.sh/preact/hooks",
       "preact/compat": "https://esm.sh/preact/compat",
-      "@preact/signals": "https://esm.sh/@preact/signals",
-      "object-hash": "https://esm.sh/object-hash"
+      "@preact/signals": "https://esm.sh/@preact/signals"
 
     }
   }

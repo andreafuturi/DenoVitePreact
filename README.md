@@ -71,6 +71,7 @@ When your app is ready for production you can compile it with "npm run build" or
 
 
 ## Limitatations
+- Interactive components need to be declared outside of normal components (still trying to find a workaround)
 - For some unknow reasons you have to specify file names and extensions in the local imports
 - Unless you're in server/index.jsx packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
 -  After installing a package with npm install, you must reference its name in importMap.json for it to work. For example:
