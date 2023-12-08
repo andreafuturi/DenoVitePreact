@@ -1,5 +1,5 @@
-import { upload } from "./server/api.jsx";
-import Home from "./client/pages/home.jsx";
+import About from "../client/about.jsx";
+import { Home } from "../client/index.jsx";
 
 //lazy routes
 // const LazyLoaded = lazy(() => import("./client/LazyLoaded.jsx"));
@@ -7,15 +7,17 @@ import Home from "./client/pages/home.jsx";
 //routes are server side rendered
 const routes = {
   "": <Home />,
-  about: <h1>About</h1>,
+  about: <About />,
   default: <h1>404</h1>,
+  onlyServer: "onlyServer by default",
   //lazyloaded: <Suspense fallback="Loading..."><LazyLoaded /></Suspense>,
 };
 
 //this enables us to create api endpoints
 const api = {
-  upload,
-  "upload/:id": upload,
+  upload: ({ id }) => {
+    return { key: "My secret key is: rom4om4" + id };
+  },
 };
 export { routes, api };
 

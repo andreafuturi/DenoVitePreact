@@ -4,7 +4,7 @@
       "preact-render-to-string": "https://esm.sh/preact-render-to-string?deps=preact",
       "preact/hooks": "https://esm.sh/preact/hooks",
       "preact/compat": "https://esm.sh/preact/compat",
-      "@preact/signals": "https://esm.sh/@preact/signals"
-
+      "@preact/signals": "https://esm.sh/@preact/signals",
+"react-streaming/server": "https://esm.sh/react-streaming/server"
     }
   }

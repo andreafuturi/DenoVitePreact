@@ -1,9 +1,8 @@
 import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
-import RemoteAssets from "vite-plugin-remote-assets";
 
 export default defineConfig({
-  plugins: [preact(), RemoteAssets()],
+  plugins: [preact()],
   esbuild: {
     logOverride: { "this-is-undefined-in-esm": "silent" },
   },

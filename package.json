@@ -4,23 +4,23 @@
   "private": false,
   "scripts": {
     "start": "npm run dev-client & npm run dev-server",
-    "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/index.jsx",
-    "dev-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/index.jsx --dev",
+    "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx",
+    "dev-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx --dev",
     "dev-client": "vite client --host",
     "preview": "npm run build & npm run prod-server",
-    "build": "npm run create-index && vite build client --outDir assets/dist",
+    "build": "npm run create-index && vite build client --outDir dist --watch",
     "final": "deno pack server or deno bundle server",
     "deploy": "npm run build && npm run final",
     "publish": "rm -d -r ./node_modules && rm package-lock.json && rm server/deno.lock && git publish && npm i",
-    "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./index.jsx\"></script><link rel=\"stylesheet\" href=\"/assets/index.css\" />' > ./client/index.html",
+    "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./main.jsx\"></script><link rel=\"stylesheet\" href=\"./index.css\" />' > ./client/index.html",
     "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
   },
   "dependencies": {
     "@preact/signals": "^1.2.2",
     "content-visibility": "^1.2.2",
     "object-hash": "^3.0.0",
-    "preact": "^10.8.1",
-    "preact-render-to-string": "^5.2.0"
+    "preact": "^10.19.2",
+    "preact-render-to-string": "^6.3.1"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.2.0",
