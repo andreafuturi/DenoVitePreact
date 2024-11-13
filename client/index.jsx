@@ -1,6 +1,3 @@
-import { useEffect } from "preact/hooks";
-import Counter from "./components/counter.jsx";
-
 export default function Index({ children }) {
   return (
     <html lang="en">
@@ -20,7 +17,6 @@ export default function Index({ children }) {
           so we load about.css and about.js and also the css of the components used in about.jsx
           this should work both on the server and on the client because we load the css of the components used in about.jsx on the client too
         */}
-
         <script rel="preconnect" type="module" crossorigin src={window.dev ? "http://localhost:3456/main.jsx" : "/dist/assets/index.js"}></script>
       </head>
       <body>
@@ -39,24 +35,5 @@ export default function Index({ children }) {
         <router>{children}</router>
       </body>
     </html>
-  );
-}
-export const counter = (
-  <interactive id="counter">
-    <Counter start={3} />
-  </interactive>
-);
-export function Home() {
-  useEffect(async () => {
-    console.log(await window.api.upload({ id: 123 }));
-  }, []);
-  return (
-    <home>
-      <h1>Home</h1>
-
-      {/* crearte lot of space before counter */}
-      {counter}
-      <upload />
-    </home>
   );
 }

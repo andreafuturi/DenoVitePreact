@@ -3,7 +3,10 @@ import { hydrate } from "preact";
 const interactiveComponents = [];
 
 const hydrateInteractiveComponents = (elementNode, components) => {
-  if (components) components.forEach((component) => interactiveComponents.push({ name: component.props.id, componentContent: component.props.children }));
+  if (components)
+    components.forEach((component) => {
+      interactiveComponents.push({ name: component.props.id, componentContent: component.props.children });
+    });
   console.log("hydrating interactive components");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {

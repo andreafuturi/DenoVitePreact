@@ -1,5 +1,6 @@
+import Notfound from "../client/404.jsx";
 import About from "../client/about.jsx";
-import { Home } from "../client/index.jsx";
+import Home from "../client/home.jsx";
 
 //lazy routes
 // const LazyLoaded = lazy(() => import("./client/LazyLoaded.jsx"));
@@ -8,7 +9,7 @@ import { Home } from "../client/index.jsx";
 const routes = {
   "": <Home />,
   about: <About />,
-  default: <h1>404</h1>,
+  default: <Notfound />,
   onlyServer: "onlyServer by default",
   //lazyloaded: <Suspense fallback="Loading..."><LazyLoaded /></Suspense>,
 };

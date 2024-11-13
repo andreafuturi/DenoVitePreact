@@ -1,5 +1,5 @@
 import { startRooter } from "../lib/router.js";
-import { counter } from "./index.jsx";
+import { counter } from "./home.jsx";
 import { hydrateInteractiveComponents } from "../lib/client-utils.jsx";
 import { about } from "./about.jsx";
 

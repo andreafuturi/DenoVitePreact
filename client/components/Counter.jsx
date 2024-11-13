@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
-const Counter = () => {
-  const [count, setCount] = useState(0);
+const Counter = ({ start }) => {
+  const [count, setCount] = useState(start || 0);
   return (
     <counter>
       <p>Count: {count}</p>

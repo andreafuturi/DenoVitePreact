@@ -7,7 +7,17 @@ export const about = (
   </interactive>
 );
 function About() {
-  return about;
+  // const anotherPage = await fetchAnotherPage();
+  // console.log(anotherPage);
+  return <div>Ciao, from {about}</div>;
+}
+//fake server async function
+function fetchAnotherPage() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("another page");
+    }, 3000);
+  });
 }
 
 export default About;
