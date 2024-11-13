@@ -17,12 +17,12 @@
     "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
   },
   "dependencies": {
-    "@preact/signals": "^1.2.2",
-    "preact": "^10.19.3",
-    "preact-render-to-string": "^6.3.1"
+    "@preact/signals": "^1.3.0",
+    "preact": "^10.24.3",
+    "preact-render-to-string": "^6.5.11"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.7.0",
+    "@preact/preset-vite": "^2.9.1",
     "vite": "^5"
   }
 }
