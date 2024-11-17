@@ -1,21 +1,25 @@
 # DenoVitePreact
-This project is a minimal template for building a server-side rendered Preact application with Deno handling server-side rendering and Vite managing client-side hydration and Hot Module Replacement (HMR). This project provides a streamlined structure with separate folders for server and client code.
+This project is a minimal template for building a server-side rendered Preact application with Deno handling server-side rendering and Vite managing client-side hydration and Hot Module Replacement (HMR) for development. This project provides a streamlined structure with separate folders for server and client code.
 
 
 ## Project Structure
 
 ### /server
 
-- **index.jsx**: The entry point for the server-side application. [select this with Deno Deploy].
+- **main.jsx**: The entry point for the server-side application. [select this with Deno Deploy].
 - **deno.json**: Server configuration file.
 
-  *Add any files that has server logic here (like apis or stuff like that)*
+  *Add any files that has server logic here*
 
 
 ### /client
 
-- **index.jsx**: The entry point for the front-end application.
+- **main.jsx**: The entry point for the front-end application. (it includes hydration of components and start of client router)
 - **vite.config.js**: Client configuration file.
+- **index.jsx**: The main html content is here, you can edit HEAD tags etc.. with Preact
+- **home.jsx**: This is your main route served at /
+- **about.jsx**: This page is served at /about
+etc...
 
   *Add any file that has client logic here (like front-end functions, UI) or static served files under /client/assets*
   
