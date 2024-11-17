@@ -2,7 +2,6 @@ export default function Index({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* <script src="https://cdn.jsdelivr.net/npm/content-visibility/content-visibility.min.js"></script> */}
         <meta charset="utf-8" />
         <link rel="stylesheet" href={`/${!globalThis.dev ? "dist/assets/" : ""}index.css`} />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

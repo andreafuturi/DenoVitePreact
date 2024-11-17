@@ -3,42 +3,41 @@ import { refresh } from "https://deno.land/x/refresh/mod.ts";
 import { serveDir } from "https://deno.land/std/http/file_server.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts";
 
-import { routes, api } from "./routes.jsx";
 import App from "../client/index.jsx";
-import { handleAPIRoutes } from "../lib/server-utils.jsx";
 
-// Create refresh middleware
-const middleware = refresh();
-
-async function handleRoute(_req, route) {
+async function handleRoute(req, RouteHandler, isApi) {
   try {
+    //what is the client requesting
+    let body = await req.text();
     try {
       body = JSON.parse(body);
     } catch {
-      //not json probably a text
+      // If parsing fails, we already have the text body
     }
-    // Handle the route and return the appropriate response
-    let body = await _req.text();
     // Handle function-based route
-    if (typeof route === "function") {
-      return new Response(JSON.stringify(route(body)), {
+    if (isApi)
+      //check it it's object, if so directly return it stringified
+      return new Response(JSON.stringify(await RouteHandler(body, req)), {
         headers: { "content-type": "application/json; charset=utf-8" },
       });
-    }
 
-    // Continue rendering logic if 'route' is a Preact component
-    const clientScript = handleAPIRoutes(api);
+    const route = <RouteHandler originRequest={req} {...body} />;
+    //handle partial rendering of route
     if (body === "onlyRoute")
+      //should we call the fn with request body?
       return new Response(renderSSR(route), {
         headers: { "content-type": "application/javascript; charset=utf-8" },
       });
+
+    //handle full rendering of route
+    //here we should also render default 404 route? and routes that needs preloading
     const html = renderSSR(
       <App>
-        <script>globalThis.dev=true;{clientScript}</script>
-        {Object.entries(routes).map(([path, component]) => path !== "default" && <route path={"/" + path}>{getPathname() === path && component}</route>)}
-        <route path="/default">{!Object.keys(routes).includes(getPathname()) && routes.default}</route>
+        <script>{`globalThis.dev=${globalThis.dev}`}</script>
+        <route path={globalThis.location.pathname}>{route}</route>
       </App>
     );
+
     return new Response("<!DOCTYPE html>" + html, {
       headers: { "content-type": "text/html; charset=utf-8" },
     });
@@ -46,63 +45,64 @@ async function handleRoute(_req, route) {
     return handleError(problem);
   }
 }
-async function handler(_req) {
-  const res = middleware(_req);
-  if (res) return res;
+async function handler(req) {
+  const middlewareResponse = middleware(req);
+  if (middlewareResponse) return middlewareResponse;
 
-  const { pathname } = new URL(_req.url);
-  globalThis.location = { pathname: pathname };
+  const { pathname } = new URL(req.url);
+  globalThis.location = { pathname };
 
-  const routePath = getRoutePath(pathname);
-  const isRoute = checkIsRoute(pathname);
-
-  if (pathname !== "/" && isRoute && !pathname.startsWith("/dist")) {
-    return handleRoute(_req, routes[routePath] || routes.default);
-  }
-
-  if (pathname !== "/") {
-    return serveDir(_req, { fsRoot: "client/", urlRoot: "" });
-  }
-
+  // Handle routes
   try {
-    const route = api[routePath] || routes[routePath] || routes.default;
-    return await handleRoute(_req, route);
+    let routePath = formatPathname(pathname);
+    if (routePath == "vite.config") throw new Error("404");
+    if (routePath == "index.html") routePath = "home";
+
+    const basePath = `${new URL(".", import.meta.url).pathname}../client/${routePath || "home"}`;
+
+    // Check for .jsx or .js file
+    const extension = await getFileExtension(basePath);
+    if (extension) {
+      const module = await import(`../client/${routePath || "home"}${extension}`);
+      if (!module.default) {
+        throw new Error(`No default export found for route ${routePath} in ${basePath}${extension}`);
+      }
+      const isApi = extension === ".js";
+      return handleRoute(req, module.default, isApi);
+    }
+    if (!routePath.endsWith(".jsx") && routePath !== "vite.config.js") return serveDir(req, { fsRoot: "client/", urlRoot: "" });
+    else throw new Error("404 route not found. Make sure you have a corresponding .js or .jsx file with the same name");
   } catch (error) {
-    return handleError(error);
+    return handleError(error.message);
   }
 }
-const getPathname = () => {
-  const { pathname } = globalThis.location;
-  return pathname.startsWith("/") ? pathname.slice(1) : pathname;
-};
-function getRoutePath(pathname) {
+function formatPathname(pathname) {
   return pathname.startsWith("/") ? pathname.slice(1) : pathname;
 }
 
-function checkIsRoute(pathname) {
-  return !pathname.includes(".") || pathname.endsWith(".jsx") || pathname.endsWith(".js");
+// Helper functions
+async function getFileExtension(basePath) {
+  for (const ext of [".jsx", ".js"]) {
+    try {
+      await Deno.stat(`${basePath}${ext}`);
+      return ext;
+    } catch {
+      continue;
+    }
+  }
+  return null;
 }
 
 function handleError(error) {
   return new Response(
-    `<div style='text-align: center;font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;margin-top: 50vh;color: red;'>${error}<br /><span style="color:#000">${error.stack}</span></div>`,
+    `<div style='text-align: center;font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;margin-top: 50vh;color: red;'>${error}<br /><span style="color:#000">${
+      error.stack || "That's all we know."
+    }</span></div>`,
     { headers: { "content-type": "text/html; charset=utf-8" } }
   );
 }
 globalThis.dev = parse(Deno.args).dev;
 Deno.serve(handler);
 
-// what to do if api returns a component
-//const response = () => route(body);
-// if (response()?.props) {
-//   const html = renderSSR(<App>{response()}</App>);
-//   return new Response(html, {
-//     headers: { "content-type": "text/html; charset=utf-8" },
-//   });
-// }
-// else if (route && !route.props) {
-//   // Object but not a component
-//   return new Response(JSON.stringify(route), {
-//     headers: { "content-type": "application/json; charset=utf-8" },
-//   });
-// }
+// Create refresh middleware
+const middleware = refresh();

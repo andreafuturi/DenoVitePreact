@@ -29,7 +29,7 @@ const hydrateInteractiveComponents = (elementNode, components) => {
   });
 };
 
-const Browser = ({ script, selfExecute }) => (
+const BrowserScript = ({ script, selfExecute }) => (
   <script>
     {script.toString().replaceAll('"', "`")}
     {selfExecute && `${script.name}()`}
@@ -37,7 +37,7 @@ const Browser = ({ script, selfExecute }) => (
 );
 const ClientOnly = ({ children }) => {
   console.log(children);
-  return typeof document !== "undefined" ? <div>{children}</div> : null;
+  return typeof document !== "undefined" ? children : null;
 };
 
-export { hydrateInteractiveComponents, Browser, ClientOnly };
+export { hydrateInteractiveComponents, BrowserScript, ClientOnly };
