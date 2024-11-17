@@ -25,11 +25,15 @@ etc...
   
 ## How it works?
 Deno is running on port 8000
-Every request by a client is processed by /server/index.js which renders client/index.jsx at every route (You can easily setup server side routing if you want).
-Every file from client/assets/ is automatically served at yoursite.com/assets/
+Every request by a client is processed by /server/main.jsx which renders client/index.jsx at every route chaninging only its children based on the requested path.
+Every file from client/ is automatically served at yoursite.com/
+If it is a .jsx file it will be ignored and rendered as a route instead
+If it is a .js file it will be ignored and rendered as an api endpoint instead
 
-Vite is running on port 3456 in dev mode, when compiled it is served from assets/dist at youtsite.com/dist-assets/
-The client/index.jsx auto injects itself in the <head> tag so that it can hydrates the app in the browser and continue rendering
+
+
+Vite is running on port 3456 in dev mode, when compiled it is served from dist at youtsite.com/dist/
+The client/main.jsx auto injects itself in the <head> tag so that it can hydrates the app in the browser and continue rendering
 
 ```jsx
 function App() {
@@ -77,7 +81,7 @@ When your app is ready for production you can compile it with "npm run build" or
 ## Limitatations
 - Interactive components need to be declared outside of normal components (still trying to find a workaround)
 - For some unknow reasons you have to specify file names and extensions in the local imports
-- Unless you're in server/index.jsx packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
+- Unless you're in server/main.jsx packages need to be installed with npm install (until Vite understands remote imports or Deno stores its cached packages inside node_modules)
 -  After installing a package with npm install, you must reference its name in importMap.json for it to work. For example:
 
 ```json
