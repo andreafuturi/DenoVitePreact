@@ -19,6 +19,9 @@ const api = {
   upload: ({ id }) => {
     return { key: "My secret key is: rom4om4" + id };
   },
+  "manifest.json": () => {
+    return { test: "test" };
+  },
 };
 export { routes, api };
 
@@ -27,4 +30,4 @@ export { routes, api };
 
 //shared routes could be placed in /client/routes.jsx
 //if for some reasons someone wants a client only route they can sorround it with
-// <ClientOnly></ClientOnly> or conditionally render it with {window.isBrowser && <Component/>}
+// <ClientOnly></ClientOnly> or conditionally render it with {globalThis.isBrowser && <Component/>}

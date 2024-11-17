@@ -1,5 +1,5 @@
 function handleAPIRoutes(api) {
-  let clientScript = "window.api = {\n";
+  let clientScript = "globalThis.api = {\n";
 
   for (const route in api) {
     clientScript += `

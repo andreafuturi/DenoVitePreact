@@ -1,15 +1,14 @@
-import { useEffect } from "preact/hooks";
+import { useEffect } from "https://esm.sh/preact/hooks";
 import Counter from "./components/counter.jsx";
 
 export default function Home() {
-  //   useEffect(async () => {
-  //     console.log(await window.api.upload({ id: 123 }));
-  //   }, []);
-  window.counterStart = 10;
+  useEffect(async () => {
+    console.log(await globalThis.api.upload({ id: 123 }));
+  }, []);
+  globalThis.counterStart = 10;
   return (
     <home>
       <h1>Home</h1>
-
       {/* crearte lot of space before counter */}
       {counter}
       <upload />
@@ -18,6 +17,6 @@ export default function Home() {
 }
 export const counter = (
   <interactive id="counter">
-    <Counter start={window.counterStart} />
+    <Counter start={globalThis.counterStart} />
   </interactive>
 );

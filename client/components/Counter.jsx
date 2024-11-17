@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState } from "https://esm.sh/preact/hooks";
 const Counter = ({ start }) => {
   const [count, setCount] = useState(start || 0);
   return (

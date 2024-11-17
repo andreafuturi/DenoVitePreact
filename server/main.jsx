@@ -6,7 +6,6 @@ import { parse } from "https://deno.land/std/flags/mod.ts";
 import { routes, api } from "./routes.jsx";
 import App from "../client/index.jsx";
 import { handleAPIRoutes } from "../lib/server-utils.jsx";
-import { getPathname } from "../lib/router.js";
 
 // Create refresh middleware
 const middleware = refresh();
@@ -35,21 +34,12 @@ async function handleRoute(_req, route) {
       });
     const html = renderSSR(
       <App>
-        <script>window.dev=true;{clientScript}</script>
-        {Object.entries(routes).map(
-          ([path, component]) =>
-            path !== "default" && (
-              <route path={"/" + path} style="content-visibility: auto;">
-                {getPathname() === path && component}
-              </route>
-            )
-        )}
-        <route path="/default" style="content-visibility: auto;">
-          {!Object.keys(routes).includes(getPathname()) && routes.default}
-        </route>
+        <script>globalThis.dev=true;{clientScript}</script>
+        {Object.entries(routes).map(([path, component]) => path !== "default" && <route path={"/" + path}>{getPathname() === path && component}</route>)}
+        <route path="/default">{!Object.keys(routes).includes(getPathname()) && routes.default}</route>
       </App>
     );
-    return new Response(html, {
+    return new Response("<!DOCTYPE html>" + html, {
       headers: { "content-type": "text/html; charset=utf-8" },
     });
   } catch (problem) {
@@ -61,7 +51,7 @@ async function handler(_req) {
   if (res) return res;
 
   const { pathname } = new URL(_req.url);
-  window.location = { pathname: pathname };
+  globalThis.location = { pathname: pathname };
 
   const routePath = getRoutePath(pathname);
   const isRoute = checkIsRoute(pathname);
@@ -81,7 +71,10 @@ async function handler(_req) {
     return handleError(error);
   }
 }
-
+const getPathname = () => {
+  const { pathname } = globalThis.location;
+  return pathname.startsWith("/") ? pathname.slice(1) : pathname;
+};
 function getRoutePath(pathname) {
   return pathname.startsWith("/") ? pathname.slice(1) : pathname;
 }
@@ -96,7 +89,7 @@ function handleError(error) {
     { headers: { "content-type": "text/html; charset=utf-8" } }
   );
 }
-window.dev = parse(Deno.args).dev;
+globalThis.dev = parse(Deno.args).dev;
 Deno.serve(handler);
 
 // what to do if api returns a component
