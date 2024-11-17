@@ -15,11 +15,11 @@ This project is a minimal template for building a server-side rendered Preact ap
 ### /client
 
 - **main.jsx**: The entry point for the front-end application. (it includes hydration of components and start of client router)
-- **vite.config.js**: Client configuration file.
 - **index.jsx**: The main html content is here, you can edit HEAD tags etc.. with Preact
 - **home.jsx**: This is your main route served at /
 - **about.jsx**: This page is served at /about
 etc...
+- **vite.config.js**: Client configuration file.
 
   *Add any file that has client logic here (like front-end functions, UI) or static served files under /client/assets*
   
