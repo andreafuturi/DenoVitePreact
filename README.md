@@ -1,55 +1,51 @@
 # DenoVitePreact
 
-This project is a minimal template for building a server-side rendered Preact application with Deno handling server-side rendering and Vite managing client-side hydration and Hot Module Replacement (HMR) for development.
-You can also easily integrate a lightweight client router to have SPA route navigation with only 1.5kb of js by default.
-This project provides a streamlined structure with separate folders for server and client code.
+This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration and Hot Module Replacement (HMR) in development. You can also integrate a lightweight client router for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
 
 ## Project Structure
 
 ### /server
 
-- **main.jsx**: The entry point for the server-side application. [select this with Deno Deploy].
-- **api/admin.js**: This is an example of an api route, it is automatically served at /api/admin or /api/admin/
-- **deno.json**: Server configuration file.
+- **main.jsx**: Entry point for the server-side application (select this with Deno Deploy).
+- **api/admin.js**: Example API route, automatically served at `/api/admin` or `/api/admin/`.
+- **deno.json**: Server configuration file (only needed if you want to use Preact).
 
-  _Add any file with server logic here_
+  _Add any additional server logic files here._
 
 ### /client
 
-- **main.jsx**: The optional entry point for the front-end application. (it includes hydration of reactive components and client-side router init)
-- **index.jsx**: The main html content is decalred here, you can edit HEAD tags etc.. all with Preact components
-- **index.css**: This a static file served at /index.css, it's automatically included in your index.jsx head's tag so that it is accessible in every route. You can have your global styles here.
-- **home.jsx**: This is your main route served at / or /home or /home/
-- **about.jsx**: This example route is served at /about
-- **components**: This folder can contains all your components and their relative css modules.
-- **vite.config.js**: Client configuration file.
+- **main.jsx**: Front-end entry point for client-side hydration and router initialization. (only if you use the ScriptAndCss component)
+- **index.jsx**: Main HTML content; editable with Preact components to customize `<head>`, etc.
+- **index.css**: Global styles, automatically included in `index.jsx` (only if you use the ScriptAndCss component).
+- **home.jsx**: Main route served at `/` or `/home`.
+- **about.jsx**: Another route example served at `/about`.
+- **components**: Folder for components and their relative CSS modules.
+- **vite.config.js**: Client configuration file for Vite's Preact HMR.
 
-  _Add any file that has client logic here (like front-end functions, UI) or static served files_
+  _Add client-side files (e.g., front-end functions, UI components, or static files) here._
 
 ## Minimal Project Structure
 
-As its easiest configuration the project could look like (landing page using React for less config files)
+For a simple setup, structure the project as:
 
-client/index.jsx -> your jsx landing page
-client/main.jsx -> imported in index.jsx to hydrate interactive components
-server/main.jsx -> serves index.jsx at each request
-server/deno.json -> preact config (not needed if you use React instead)
-client/vite.config.js -> basic vite configuration
+- `client/index.jsx`: JSX landing page
+- `server/main.jsx`: Serves `index.jsx` at each request
+- `server/deno.json`: Optional Preact config (you can also use React instead)
+- `client/vite.config.js`: Basic Vite configuration
 
-## How it works?
+To add interactivity
 
-Deno is running on port 8000
-Every request by a client is processed by /server/main.jsx which renders client/index.jsx at every route chaninging only its children based on the requested route path.
-Every file from client/ is automatically served at yoursite.com/
-If it is a .jsx file it will be ignored and rendered as a html route instead (about.jsx served at /about)
+- `client/main.jsx`: Hydrates interactive components (import in `index.jsx` with the ScriptAndCss component)
 
-The generated index.html imports client's main.jsx. This file is optional but can do these important things for your application:
+## How it Works
 
-- Hydrate any interactive Preact components you have in your html.
-- Start a client side router so that navigation feels like an SPA without hydrating all the site dom.
+Deno runs on port 8000, processing each client request through `/server/main.jsx` to render `client/index.jsx` with route-specific content. Files in `client/` are served at `yoursite.com/` (non-JSX files as static assets; JSX files rendered as routes, e.g., `about.jsx` at `/about`).
 
-Vite is running on localhost:3456/main.jsx in dev mode, when compiled it is served from dist at youtsite.com/dist/index.js
-The client/main.jsx is included in the <head> of index.jsx so that it can hydrates the app in the browser and continue rendering whatever is needed.
+The generated index includes `client/main.jsx`, which enables client-side hydration and optional lightweight SPA navigation without Virtual DOM.
+
+Vite runs on `localhost:3456/main.jsx` during development. When compiled, it’s served from `dist` at `yoursite.com/dist/index.js`, same for css files etc...
+The compiled file is included in the `<head>` of `index.jsx` to enable hydration in the browser thanks to the ScriptAndCss component.
+This is a smart component that will automatically switch between the compiled and non compiled files in production.
 
 ```jsx
 function Index({children) {
@@ -118,7 +114,7 @@ function Component() {
 }
 ```
 
-This is useful when you have some logic shared between server and client.
+This is useful for simpler vanilla js logic where preact or react are not needed.
 You can declare the function outside of the component and pass it as a prop.
 Function will be declared on the browser and can also be self executed if selfExecute is true.
 
