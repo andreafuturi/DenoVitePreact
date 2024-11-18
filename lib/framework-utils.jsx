@@ -37,7 +37,6 @@ const BrowserScript = ({ script, selfExecute }) => (
   </script>
 );
 const ClientOnly = ({ children }) => {
-  console.log(children);
   return typeof document !== "undefined" ? children : null;
 };
 function ScriptAndCss({ isDev = false }) {

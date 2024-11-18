@@ -75,6 +75,59 @@ Title is an optional special component that let you have a dyamic title that cha
 When your app is ready for production you can compile it with "npm run build" or "npm run preview" which will also start the server in prod mode for you to test everything.
 When everything is working properly you will soon be able to deploy to denodeploy with "npm run deploy"
 
+## Special Components and tags
+
+### Interactivity
+
+The interactive tag enables client-side interactivity. Every component is only server side rendered by default. To make the component executes javascript code on the browser you have 2 options:
+
+- Use the interactive tag:
+
+```jsx
+//ClientOnly a general interactive component
+export const about = (
+  <interactive id="about">
+    <ClientOnly>
+      <h1>About</h1>
+    </ClientOnly>
+  </interactive>
+);
+function About() {
+  return <>Ciao, from {about}</>;
+}
+
+//in this case ClientOnly makes sure that the component is only rendered on the client side, useful when you have components with browser only logic and you want to avoid rendering them on the server
+const ClientOnly = ({ children }) => {
+  return typeof document !== "undefined" ? children : null;
+};
+```
+
+- Use the BrowserScript tag
+
+```jsx
+function doSomethingOnBrowser() {
+  console.log("hello");
+}
+function Component() {
+  return (
+    <div>
+      <h1>Hello</h1>
+      <BrowserScript script={doSomethingOnBrowser} selfExecute={true} />
+    </div>
+  );
+}
+```
+
+This is useful when you have some logic shared between server and client.
+You can declare the function outside of the component and pass it as a prop.
+Function will be declared on the browser and can also be self executed if selfExecute is true.
+
+Otherwise you can just declare it and use it later
+
+```html
+<div onchange="doSomethingOnBrowser()"></div>
+```
+
 ## Limitatations
 
 - Interactive components need to be declared outside of normal components to be export and hydrated by client/main.jsx (currently working on a smart workaround)
@@ -99,9 +152,3 @@ It would be nice to implement SSG as default for no javascript and improve css m
 5. Deploy to Deno deploy (might add a script in package.json in the future)
 
 Happy coding!
-
-## Special Components
-
-### `<Interactive>` Component
-
-The Interactive component enables client-side interactivity within server-rendered pages. It automatically hydrates its children on the client side.
