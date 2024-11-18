@@ -31,7 +31,9 @@ export default function Index({ children }) {
             404
           </a>
         </menu>
-        <router>{children}</router>
+        <router>
+          <route path={globalThis.location.pathname}>{children}</route>
+        </router>
       </body>
     </html>
   );
