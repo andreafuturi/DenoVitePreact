@@ -1,5 +1,5 @@
 import { counter } from "./home.jsx";
-import { hydrateInteractiveComponents } from "../lib/client-utils.jsx";
+import { hydrateInteractiveComponents } from "../lib/framework-utils.jsx";
 import { about } from "./about.jsx";
 import { startRouter } from "https://esm.sh/lightweight-router";
 

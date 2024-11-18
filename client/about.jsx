@@ -1,8 +1,7 @@
-import { BrowserScript, ClientOnly } from "../lib/client-utils.jsx";
+import { ClientOnly } from "../lib/framework-utils.jsx";
 
 export const about = (
   <interactive id="about">
-    <BrowserScript script={`document.title='About'`} />
     <ClientOnly>
       <h1>About</h1>
     </ClientOnly>
