@@ -1,6 +1,6 @@
 # DenoVitePreact
 
-This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration and Hot Module Replacement (HMR) in development. You can also integrate a lightweight client router for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
+This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration and Hot Module Replacement (HMR) in development. You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
 
 ## Project Structure
 
@@ -41,7 +41,7 @@ To add interactivity
 
 Deno runs on port 8000, processing each client request through `/server/main.jsx` to render `client/index.jsx` with route-specific content. Files in `client/` are served at `yoursite.com/` (non-JSX files as static assets; JSX files rendered as routes, e.g., `about.jsx` at `/about`).
 
-The generated index includes `client/main.jsx`, which enables client-side hydration and optional lightweight SPA navigation without Virtual DOM.
+The generated index includes `client/main.jsx`, which enables client-side hydration and [optional lightweight SPA navigation](https://github.com/andreafuturi/lightweight-router) without Virtual DOM.
 
 Vite runs on `localhost:3456/main.jsx` during development. When compiled, it’s served from `dist` at `yoursite.com/dist/index.js`, same for css files etc...
 The compiled file is included in the `<head>` of `index.jsx` to enable hydration in the browser thanks to the ScriptAndCss component.
