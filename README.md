@@ -1,6 +1,6 @@
 # DenoVitePreact
 
-This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration and Hot Module Replacement (HMR) in development. You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
+This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration. You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
 
 ## Project Structure
 
