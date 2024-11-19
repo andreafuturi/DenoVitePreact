@@ -44,7 +44,7 @@ export const createServerHandler = ({ App, router = null, middleware = null, sta
         }
       } else {
         // Simple single page rendering
-        return new Response(render(App()), {
+        return new Response(render(App({})), {
           headers: { "content-type": "text/html; charset=utf-8" },
         });
       }
