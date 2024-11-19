@@ -39,17 +39,18 @@ const BrowserScript = ({ script, selfExecute }) => (
 const ClientOnly = ({ children }) => {
   return typeof document !== "undefined" ? children : null;
 };
-function ScriptAndCss({ isDev = false }) {
+function IndexCss({ isDev = false }) {
+  return <link rel="stylesheet" href={`/${!isDev ? "dist/assets/" : ""}index.css`} />;
+}
+function MainJsx({ isDev = false }) {
   return (
     <>
-      <link rel="stylesheet" href={`/${!isDev ? "dist/assets/" : ""}index.css`} />
       {isDev && <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' *;" />}
       <script rel="preconnect" type="module" crossorigin src={isDev ? "http://localhost:3456/main.jsx" : "/dist/assets/index.js"}></script>
       {isDev && <script>{fastrefresh}</script>}
     </>
   );
 }
-
 const fastrefresh = `((l) => {
   let w, i;
 
@@ -108,4 +109,4 @@ function ErrorComponent({ error }) {
     </div>
   );
 }
-export { hydrateInteractiveComponents, BrowserScript, ClientOnly, ScriptAndCss, Title, ErrorComponent };
+export { hydrateInteractiveComponents, BrowserScript, ClientOnly, IndexCss, MainJsx, Title, ErrorComponent };
