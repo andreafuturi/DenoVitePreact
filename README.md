@@ -142,10 +142,11 @@ Otherwise you can just declare it and use it later
 ```
 
 ## Limitatations
-
-- For some unknow reasons you have to specify file names and extensions in the local imports (surely there's an easy fix)
 - We still need a node_modules for Vite to work (unfortunately there's no remote imports feature in vite.config.js)
 - This is experimental and not yet tested in big applications
+- You still manually need to hydrate interactive components in main.jsx but it's very easy to do it.
+- CSS is still not modular
+
 
 ## Suggestions and Contributions
 
