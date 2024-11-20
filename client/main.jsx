@@ -1,7 +1,7 @@
-import { hydrateInteractiveComponents } from "../lib/framework-utils.jsx";
 import { startRouter } from "https://esm.sh/lightweight-router";
 import Counter from "./components/counter.jsx";
 import About from "./about.jsx";
+import hydrateInteractiveComponents from "../lib/hydration.jsx";
 
 const interactiveComponents = [Counter, About];
 

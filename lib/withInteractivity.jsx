@@ -9,13 +9,13 @@ const withInteractivity = WrappedComponent => {
   }
 
   const WithInteractive = props => {
-    // Serialize props for client-side hydration
+    // Generate a unique ID combining component name and a timestamp
+    const uniqueId = `${WrappedComponent.name.toLowerCase()}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     const serializedProps = JSON.stringify(props);
-    //we might need to add a unique id to the interactive component to avoid conflicts when multiple components are hydrated at the same time
 
     return (
       <>
-        <interactive id={WrappedComponent.name.toLowerCase()} props={serializedProps}>
+        <interactive id={uniqueId} data-component={WrappedComponent.name.toLowerCase()} props={serializedProps}>
           <WrappedComponent {...props} />
         </interactive>
       </>

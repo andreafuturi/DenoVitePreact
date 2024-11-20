@@ -9,6 +9,7 @@ export default function Home() {
     <home>
       <h1>Home</h1>
       <Counter start={10} />
+      <Counter start={3} />
       <upload />
     </home>
   );
