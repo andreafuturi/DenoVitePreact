@@ -1,15 +1,27 @@
-const BrowserScript = ({ script, selfExecute }) => (
-  <script>
-    {script.toString().replaceAll('"', "`")}
-    {selfExecute && `${script.name}()`}
-  </script>
-);
+const BrowserScript = ({ script, selfExecute, src }) =>
+  src ? (
+    <script rel="preconnect" type="module" src={src}></script>
+  ) : (
+    <script>
+      {script.toString().replaceAll('"', "`")}
+      {selfExecute && `${script.name}()`}
+    </script>
+  );
 const ClientOnly = ({ children }) => {
   return typeof document !== "undefined" ? children : null;
 };
 function IndexCss({ isDev = false }) {
   return <link rel="stylesheet" href={`/${!isDev ? "dist/assets/" : ""}index.css`} />;
 }
+
+const COMPONENT_REGISTRY = new Map();
+let componentCounter = 0;
+export const registerComponent = Component => {
+  const id = `c${componentCounter++}`;
+  COMPONENT_REGISTRY.set(id, Component);
+  return id;
+};
+
 function MainJsx({ isDev = false }) {
   return (
     <>

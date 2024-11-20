@@ -1,30 +1,25 @@
+import { registerComponent } from "./framework-utils.jsx";
+
 // HOC for interactive components
 const withInteractivity = WrappedComponent => {
   // Check if we're on the server
-  const isServer = typeof window === "undefined";
-
-  // Return original component if not on server
-  if (!isServer) {
-    return WrappedComponent;
-  }
+  if (typeof window !== "undefined") return WrappedComponent;
 
   const WithInteractive = props => {
-    // Generate a unique ID combining component name and a timestamp
-    const uniqueId = `${WrappedComponent.name.toLowerCase()}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const serializedProps = JSON.stringify(props);
+    // Get or create stable component ID
+    const componentId = WrappedComponent.__componentId || registerComponent(WrappedComponent);
+    WrappedComponent.__componentId = componentId;
+
+    const uniqueId = `${componentId}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 
     return (
-      <>
-        <interactive id={uniqueId} data-component={WrappedComponent.name.toLowerCase()} props={serializedProps}>
-          <WrappedComponent {...props} />
-        </interactive>
-      </>
+      <interactive id={uniqueId} data-component={componentId} props={JSON.stringify(props)}>
+        <WrappedComponent {...props} />
+      </interactive>
     );
   };
 
-  // Preserve the original component name
-  WithInteractive.displayName = WrappedComponent.name;
-
+  WithInteractive.displayName = `Interactive(${WrappedComponent.name})`;
   return WithInteractive;
 };
 export default withInteractivity;

@@ -1,70 +1,47 @@
 import { hydrate } from "https://esm.sh/preact";
+import { registerComponent } from "./framework-utils";
 
 const interactiveComponents = [];
 const hydratedComponents = new Set();
 
 const hydrateInteractiveComponents = (elementNode, components) => {
-  // console.log("🚀 Starting hydration with components:", components);
+  console.log("🔄 Starting hydration process...");
 
   if (components) {
     components.forEach(Component => {
-      const componentId = Component.name.toLowerCase();
-      if (!interactiveComponents.some(c => c.name === componentId)) {
+      // Get or create component ID
+      const componentId = Component.__componentId || registerComponent(Component);
+      Component.__componentId = componentId;
+
+      if (!interactiveComponents.some(c => c.id === componentId)) {
+        console.log(`➕ Registering new component: ${componentId}`);
         interactiveComponents.push({
-          name: componentId,
+          id: componentId,
           function: Component,
         });
-        //    console.log("➕ Added to interactiveComponents:", interactiveComponents);
       }
     });
   }
 
   const observer = new IntersectionObserver(entries => {
-    //    console.log("👀 Observer triggered with entries:", entries.length);
-
     entries.forEach(entry => {
       const { target } = entry;
-      const targetId = target.id;
-      //    console.log("🎯 Checking target:", {
-      //      id: targetId,
-      //      isIntersecting: entry.isIntersecting,
-      //      alreadyHydrated: hydratedComponents.has(targetId),
-      //    });
+      if (hydratedComponents.has(target.id)) return;
 
-      if (hydratedComponents.has(targetId)) {
-        observer.unobserve(target);
-        //    console.log("⏭️ Skipping already hydrated component:", targetId);
-        return;
-      }
+      const component = interactiveComponents.find(c => target.getAttribute("data-component") === c.id);
 
-      const component = interactiveComponents.find(component => {
-        const selector = `interactive[data-component="${component.name}"]`;
-        const found = target.getAttribute("data-component") === component.name;
-        return found;
-      });
       if (entry.isIntersecting && component) {
-        //    console.log("💧 Hydrating component:", {
-        //      name: component.name,
-        //      content: component.componentContent,
-        //      });
-        const Component = component.function;
-        const props = target.getAttribute("props");
-        const parsedProps = JSON.parse(props);
-        hydrate(<Component {...parsedProps} />, target);
-        hydratedComponents.add(targetId);
-        observer.unobserve(target);
+        const props = JSON.parse(target.getAttribute("props") || "{}");
+        hydrate(<component.function {...props} />, target);
+        hydratedComponents.add(target.id);
       }
     });
   });
 
-  //    console.log("🔄 Setting up observation for:", interactiveComponents);
-  interactiveComponents.forEach(({ name }) => {
-    const elements = (elementNode || document).querySelectorAll(`interactive[data-component="${name}"]`);
-    elements.forEach(element => {
-      if (!hydratedComponents.has(element.id)) {
-        observer.observe(element);
-      }
-    });
+  interactiveComponents.forEach(({ id }) => {
+    const elements = (elementNode || document).querySelectorAll(`interactive[data-component="${id}"]`);
+    elements.forEach(el => !hydratedComponents.has(el.id) && observer.observe(el));
   });
 };
+
 export default hydrateInteractiveComponents;

@@ -1,5 +1,6 @@
 import { useEffect } from "https://esm.sh/preact/hooks";
 import Counter from "./components/counter.jsx";
+import { BrowserScript } from "../lib/framework-utils.jsx";
 
 export default function Home() {
   // useEffect(async () => {
@@ -11,6 +12,7 @@ export default function Home() {
       <Counter start={10} />
       <Counter start={3} />
       <upload />
+      <BrowserScript src="/home.js" />
     </home>
   );
 }

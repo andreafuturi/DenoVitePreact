@@ -1,4 +1,5 @@
 import { IndexCss, MainJsx, Title } from "../lib/framework-utils.jsx";
+import Home from "./home.jsx";
 
 export default function Index({ children }) {
   return (
