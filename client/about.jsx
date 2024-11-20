@@ -1,4 +1,4 @@
-import withInteractivity from "./components/withInteractivity.jsx";
+import withInteractivity from "../lib/withInteractivity.jsx";
 
 function About() {
   return <>Hello, from {typeof document !== "undefined" ? "client" : "server"}</>;

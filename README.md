@@ -78,28 +78,49 @@ When everything is working properly you will soon be able to deploy to denodeplo
 
 ### Interactivity
 
-The interactive tag enables client-side interactivity. Every component is only server side rendered by default. To make the component executes javascript code on the browser you have 2 options:
+Every component is only server side rendered by default.
+To make the component executes javascript code on the browser you have 2 options:
 
-- Use the interactive tag:
+- Use the withInteractivity HOC:
 
 ```jsx
-//ClientOnly a general interactive component
-export const about = (
-  <interactive id="about">
-    <ClientOnly>
-      <h1>About</h1>
-    </ClientOnly>
-  </interactive>
-);
-function About() {
-  return <>Ciao, from {about}</>;
-}
+//Counter a general interactive component
+import { useState } from "https://esm.sh/preact/hooks";
+import withInteractivity from "../../lib/withInteractivity.jsx";
 
-//in this case ClientOnly makes sure that the component is only rendered on the client side, useful when you have components with browser only logic and you want to avoid rendering them on the server
-const ClientOnly = ({ children }) => {
-  return typeof document !== "undefined" ? children : null;
+const Counter = ({ start }) => {
+  const [count, setCount] = useState(start || 0);
+  return (
+    <counter>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </counter>
+  );
 };
+
+export default withInteractivity(Counter);
 ```
+
+This is useful for complex logic that needs to be executed on the browser, like animations or interactions.
+You will also need to add the component to the interactiveComponents array in the client/main.jsx file to make it hydrate.
+
+```jsx
+import Counter from "./components/counter.jsx";
+import About from "./about.jsx";
+
+const interactiveComponents = [Counter, About];
+
+startRouter({
+  onRouteChange: currentPath => hydrateInteractiveComponents(document.querySelector(`route[path="${currentPath}"]`), interactiveComponents),
+});
+
+//CLIENT HYDRATION
+hydrateInteractiveComponents(document, interactiveComponents);
+
+//This file is optional, it's used to setup an SPA like client navigation and hydrate eventual interactive components
+```
+
+Or
 
 - Use the BrowserScript tag
 
@@ -129,7 +150,6 @@ Otherwise you can just declare it and use it later
 
 ## Limitatations
 
-- Interactive components need to be declared outside of normal components to be export and hydrated by client/main.jsx (currently working on a smart workaround)
 - For some unknow reasons you have to specify file names and extensions in the local imports (surely there's an easy fix)
 - We still need a node_modules for Vite to work (unfortunately there's no remote imports feature in vite.config.js)
 - This is experimental and not yet tested in big applications
