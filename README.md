@@ -142,6 +142,11 @@ Otherwise you can just declare it and use it later
 ```
 
 ## Limitatations
+<<<<<<< Updated upstream
+=======
+
+- You still have to manually hydrate components
+>>>>>>> Stashed changes
 - We still need a node_modules for Vite to work (unfortunately there's no remote imports feature in vite.config.js)
 - This is experimental and not yet tested in big applications
 - You still manually need to hydrate interactive components in main.jsx but it's very easy to do it.
