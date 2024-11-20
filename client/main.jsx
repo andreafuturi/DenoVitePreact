@@ -1,13 +1,15 @@
-import { counter } from "./home.jsx";
 import { hydrateInteractiveComponents } from "../lib/framework-utils.jsx";
-import { about } from "./about.jsx";
 import { startRouter } from "https://esm.sh/lightweight-router";
+import Counter from "./components/counter.jsx";
+import About from "./about.jsx";
+
+const interactiveComponents = [Counter, About];
 
 startRouter({
-  onRouteChange: currentPath => hydrateInteractiveComponents(document.querySelector(`route[path="${currentPath}"]`), [counter, about]),
+  onRouteChange: currentPath => hydrateInteractiveComponents(document.querySelector(`route[path="${currentPath}"]`), interactiveComponents),
 });
 
 //CLIENT HYDRATION
-hydrateInteractiveComponents(document, [counter, about]);
+hydrateInteractiveComponents(document, interactiveComponents);
 
 //This file is optional, it's used to setup an SPA like client navigation and hydrate eventual interactive components

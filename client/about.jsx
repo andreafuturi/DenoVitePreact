@@ -1,14 +1,7 @@
-import { ClientOnly } from "../lib/framework-utils.jsx";
+import withInteractivity from "./components/withInteractivity.jsx";
 
-export const about = (
-  <interactive id="about">
-    <ClientOnly>
-      <h1>About</h1>
-    </ClientOnly>
-  </interactive>
-);
 function About() {
-  return <>Ciao, from {about}</>;
+  return <>Hello, from {typeof document !== "undefined" ? "client" : "server"}</>;
 }
 
-export default About;
+export default withInteractivity(About);

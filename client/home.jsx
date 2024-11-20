@@ -8,13 +8,8 @@ export default function Home() {
   return (
     <home>
       <h1>Home</h1>
-      {counter}
+      <Counter start={10} />
       <upload />
     </home>
   );
 }
-export const counter = (
-  <interactive id="counter">
-    <Counter start={10} />
-  </interactive>
-);

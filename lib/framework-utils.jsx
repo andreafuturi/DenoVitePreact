@@ -4,43 +4,76 @@ const interactiveComponents = [];
 const hydratedComponents = new Set();
 
 const hydrateInteractiveComponents = (elementNode, components) => {
+  // console.log("🚀 Starting hydration with components:", components);
+
   if (components) {
-    components.forEach(component => {
-      const componentId = component.props.id;
+    components.forEach(Component => {
+      const componentId = Component.name.toLowerCase();
       if (!interactiveComponents.some(c => c.name === componentId)) {
         interactiveComponents.push({
           name: componentId,
-          componentContent: component.props.children,
+          function: Component,
         });
+        //    console.log("➕ Added to interactiveComponents:", interactiveComponents);
       }
     });
   }
 
   const observer = new IntersectionObserver(entries => {
+    //    console.log("👀 Observer triggered with entries:", entries.length);
+
     entries.forEach(entry => {
       const { target } = entry;
       const targetId = target.id;
+      //    console.log("🎯 Checking target:", {
+      //      id: targetId,
+      //      isIntersecting: entry.isIntersecting,
+      //      alreadyHydrated: hydratedComponents.has(targetId),
+      //    });
 
       if (hydratedComponents.has(targetId)) {
         observer.unobserve(target);
+        //    console.log("⏭️ Skipping already hydrated component:", targetId);
         return;
       }
 
-      const component = interactiveComponents.find(component => target === (elementNode || document).querySelector("interactive#" + component.name));
-
+      const component = interactiveComponents.find(component => {
+        const selector = "interactive#" + component.name;
+        const found = target === (elementNode || document).querySelector(selector);
+        //    console.log("🔍 Looking for:", {
+        //      selector,
+        //      found,
+        //      target: target.outerHTML,
+        //    });
+        return found;
+      });
       if (entry.isIntersecting && component) {
-        console.log("Hydrating Interactive Component: ", component.name);
-        hydrate(component.componentContent, target);
+        //    console.log("💧 Hydrating component:", {
+        //      name: component.name,
+        //      content: component.componentContent,
+        //      });
+        const Component = component.function;
+        const props = document.querySelector(`interactive[id="${component.name}"]`).getAttribute("props");
+        const parsedProps = JSON.parse(props);
+        hydrate(<Component {...parsedProps} />, target);
         hydratedComponents.add(targetId);
         observer.unobserve(target);
       }
     });
   });
 
+  //    console.log("🔄 Setting up observation for:", interactiveComponents);
   interactiveComponents.forEach(({ name }) => {
     const element = (elementNode || document).querySelector("interactive#" + name);
+    //      console.log("📍 Finding element:", {
+    //      name,
+    //      found: !!element,
+    //      alreadyHydrated: hydratedComponents.has(name),
+    //    });
+
     if (element && !hydratedComponents.has(name)) {
       observer.observe(element);
+      //    console.log("👁️ Now observing:", name);
     }
   });
 };
