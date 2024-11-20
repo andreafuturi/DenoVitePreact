@@ -7,8 +7,7 @@ startRouter({
   onRouteChange: currentPath => hydrateInteractiveComponents(document.querySelector(`route[path="${currentPath}"]`), [counter, about]),
 });
 
-//helpers
-window.isBrowser = typeof document !== "undefined";
-
 //CLIENT HYDRATION
-if (globalThis.isBrowser) hydrateInteractiveComponents(document, [counter, about]);
+hydrateInteractiveComponents(document, [counter, about]);
+
+//This file is optional, it's used to setup an SPA like client navigation and hydrate eventual interactive components

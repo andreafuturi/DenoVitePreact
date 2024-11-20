@@ -5,7 +5,6 @@ export default function Home() {
   // useEffect(async () => {
   //   console.log(await globalThis.api.upload({ id: 123 }));
   // }, []);
-  // globalThis.counterStart = 10;
   return (
     <home>
       <h1>Home</h1>
@@ -16,6 +15,6 @@ export default function Home() {
 }
 export const counter = (
   <interactive id="counter">
-    <Counter start={globalThis.counterStart} />
+    <Counter start={10} />
   </interactive>
 );

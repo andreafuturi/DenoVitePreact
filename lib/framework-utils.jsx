@@ -1,32 +1,47 @@
 import { hydrate } from "https://esm.sh/preact";
 
 const interactiveComponents = [];
+const hydratedComponents = new Set();
 
 const hydrateInteractiveComponents = (elementNode, components) => {
-  //this should not hydrate components that are already hydrated
-  if (components)
+  if (components) {
     components.forEach(component => {
-      interactiveComponents.push({ name: component.props.id, componentContent: component.props.children });
+      const componentId = component.props.id;
+      if (!interactiveComponents.some(c => c.name === componentId)) {
+        interactiveComponents.push({
+          name: componentId,
+          componentContent: component.props.children,
+        });
+      }
     });
-  console.log("hydrating interactive components");
+  }
+
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const { target } = entry;
-      const { name, componentContent } = interactiveComponents.find(
-        component => target === (elementNode || document).querySelector("interactive#" + component.name)
-      );
+      const targetId = target.id;
 
-      if (entry.isIntersecting && name && componentContent) {
-        console.log("Hydrating Interacting Component: ", name);
-        hydrate(componentContent, target);
-        observer.unobserve(target); // Stop observing once hydrated
+      if (hydratedComponents.has(targetId)) {
+        observer.unobserve(target);
+        return;
+      }
+
+      const component = interactiveComponents.find(component => target === (elementNode || document).querySelector("interactive#" + component.name));
+
+      if (entry.isIntersecting && component) {
+        console.log("Hydrating Interactive Component: ", component.name);
+        hydrate(component.componentContent, target);
+        hydratedComponents.add(targetId);
+        observer.unobserve(target);
       }
     });
   });
-  console.log("interactiveComponents", interactiveComponents);
+
   interactiveComponents.forEach(({ name }) => {
     const element = (elementNode || document).querySelector("interactive#" + name);
-    if (element) observer.observe(element);
+    if (element && !hydratedComponents.has(name)) {
+      observer.observe(element);
+    }
   });
 };
 
