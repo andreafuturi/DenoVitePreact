@@ -1,7 +1,7 @@
 import { refresh } from "https://deno.land/x/refresh/mod.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts";
 import App from "../client/index.jsx";
-import { createServerHandler } from "../lib/server-handler.js";
+import { createServerHandler } from "../../lib/server-handler.js";
 
 // Parse CLI args
 const args = parse(Deno.args);

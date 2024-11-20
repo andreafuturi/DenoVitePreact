@@ -9,7 +9,7 @@ import { createServerHandler } from "../lib/server-handler.js";
 const args = parse(Deno.args);
 globalThis.dev = args.dev;
 
-// Setup configuration
+// Setup configuration -> main app index jsx file, dev mode, static files directory,  middleware for dev auto refreshing
 const config = {
   App,
   isDev: globalThis.dev,
