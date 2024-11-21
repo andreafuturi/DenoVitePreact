@@ -1,12 +1,5 @@
-const BrowserScript = ({ script, selfExecute, src }) =>
-  src ? (
-    <script rel="preconnect" type="module" src={src}></script>
-  ) : (
-    <script>
-      {script.toString().replaceAll('"', "`")}
-      {selfExecute && `${script.name}()`}
-    </script>
-  );
+import { withoutHydration } from "./server-components.jsx";
+
 const ClientOnly = ({ children }) => {
   return typeof document !== "undefined" ? children : null;
 };
@@ -22,15 +15,41 @@ export const registerComponent = Component => {
   return id;
 };
 
-globalThis.importedResources = [];
-
-export const Import = ({ href }) => {
+export const Import = withoutHydration(({ src, selfExecute }) => {
+  //this should be in withoutHydration
   if (typeof Deno === "undefined") return null;
 
-  //if not already imported
-  if (!globalThis.importedResources.includes(href)) globalThis.importedResources.push(href);
-  console.log("importing", href);
-};
+  // Initialize tracking Set if not exists 🔄
+  globalThis.importedResources = globalThis.importedResources || new Set();
+
+  // Generate unique key for functions or use src path 🔑
+  const resourceKey = typeof src === "function" ? src.toString() : src;
+
+  // Check if already imported ✨
+  if (globalThis.importedResources.has(resourceKey)) {
+    return null;
+  }
+
+  globalThis.importedResources.add(resourceKey);
+
+  // Handle different import types
+  if (typeof src === "function")
+    return (
+      <script>
+        {src.toString().replaceAll('"', "`")}
+        {selfExecute && `${src.name}()`}
+      </script>
+    );
+  if (src.startsWith("http")) return <script rel="preconnect" type="module" src={src}></script>;
+
+  // Handle file imports
+  if (src.endsWith(".css")) {
+    return <style>{Deno.readTextFileSync(Deno.cwd() + "/client/" + src).replaceAll('"', "`")}</style>;
+  }
+  if (src.endsWith(".js")) {
+    return <script>{Deno.readTextFileSync(Deno.cwd() + "/client/" + src).replaceAll('"', "`")}</script>;
+  }
+});
 
 function MainJsx({ isDev = false }) {
   return (
@@ -84,9 +103,9 @@ function addRouteTitle(appTitle) {
 const Title = ({ children }) => (
   <>
     <title>{addRouteTitle(children)}</title>
-    <BrowserScript script={addRouteTitle} />
-    <BrowserScript script={updateDocumentTitle} />
-    <BrowserScript script={handleRouteChange} selfExecute />
+    <Import src={addRouteTitle} />
+    <Import src={updateDocumentTitle} />
+    <Import src={handleRouteChange} selfExecute />
   </>
 );
 //Error component
@@ -99,4 +118,4 @@ function ErrorComponent({ error }) {
     </div>
   );
 }
-export { BrowserScript, ClientOnly, IndexCss, MainJsx, Title, ErrorComponent };
+export { ClientOnly, IndexCss, MainJsx, Title, ErrorComponent };

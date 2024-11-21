@@ -115,7 +115,7 @@ hydrateInteractiveComponents(document, interactiveComponents);
 
 Or
 
-- Use the BrowserScript tag
+- Use the Import tag
 
 ```jsx
 function doSomethingOnBrowser() {
@@ -125,7 +125,7 @@ function Component() {
   return (
     <div>
       <h1>Hello</h1>
-      <BrowserScript script={doSomethingOnBrowser} selfExecute={true} />
+      <Import src={doSomethingOnBrowser} selfExecute={true} />
     </div>
   );
 }

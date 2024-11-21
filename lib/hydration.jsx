@@ -7,9 +7,20 @@ const hydratedComponents = new Set();
 const hydrateInteractiveComponents = (elementNode, components) => {
   console.log("🔄 Starting hydration process...");
 
+  // Save original content of no-hydration elements
+  const preserveServerOnlyContent = root => {
+    const serverOnlyElements = (root || document).querySelectorAll("[data-server-only]");
+    serverOnlyElements.forEach(el => {
+      // Save original content immediately after hydration
+      const originalContent = el.innerHTML;
+      queueMicrotask(() => {
+        el.innerHTML = originalContent;
+      });
+    });
+  };
+
   if (components) {
     components.forEach(Component => {
-      // Get or create component ID
       const componentId = Component.__componentId || registerComponent(Component);
       Component.__componentId = componentId;
 
@@ -32,6 +43,7 @@ const hydrateInteractiveComponents = (elementNode, components) => {
 
       if (entry.isIntersecting && component) {
         const props = JSON.parse(target.getAttribute("props") || "{}");
+        preserveServerOnlyContent(target);
         hydrate(<component.function {...props} />, target);
         hydratedComponents.add(target.id);
       }
@@ -40,7 +52,11 @@ const hydrateInteractiveComponents = (elementNode, components) => {
 
   interactiveComponents.forEach(({ id }) => {
     const elements = (elementNode || document).querySelectorAll(`interactive[data-component="${id}"]`);
-    elements.forEach(el => !hydratedComponents.has(el.id) && observer.observe(el));
+    elements.forEach(el => {
+      if (!hydratedComponents.has(el.id)) {
+        observer.observe(el);
+      }
+    });
   });
 };
 
