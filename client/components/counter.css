@@ -1,0 +1,10 @@
+counter button{
+    animation: button-animation 1s infinite alternate;
+}
+/* Cool modern animation and css for this button */
+    
+
+@keyframes button-animation {
+    0% { opacity: 0.5; }   
+    100% { opacity: 1; }
+}

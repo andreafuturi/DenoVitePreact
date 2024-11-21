@@ -22,6 +22,16 @@ export const registerComponent = Component => {
   return id;
 };
 
+globalThis.importedResources = [];
+
+export const Import = ({ href }) => {
+  if (typeof Deno === "undefined") return null;
+
+  //if not already imported
+  if (!globalThis.importedResources.includes(href)) globalThis.importedResources.push(href);
+  console.log("importing", href);
+};
+
 function MainJsx({ isDev = false }) {
   return (
     <>
