@@ -1,6 +1,6 @@
 # DenoVitePreact
 
-This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration. You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
+This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration, HMR reload and production build. You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
 
 ## Project Structure
 
@@ -23,6 +23,8 @@ This project is a minimal template for building a server-side rendered Preact ap
 - **vite.config.js**: Client configuration file for Vite's Preact HMR.
 
   _Add client-side files (e.g., front-end functions, UI components, or static files) here._
+
+  filename.jsx inside client folder will be automatically served at /filename
 
 ## Minimal Project Structure
 
@@ -78,8 +80,7 @@ When everything is working properly you will soon be able to deploy to denodeplo
 
 ### Interactivity
 
-Every component is only server side rendered by default.
-To make the component executes javascript code on the browser you have 2 options:
+The interactive tag enables client-side interactivity. Every component is only server side rendered by default. To make the component executes javascript code on the browser you have 2 options:
 
 - Use the withInteractivity HOC:
 
@@ -141,13 +142,40 @@ Otherwise you can just declare it and use it later
 <div onchange="doSomethingOnBrowser()"></div>
 ```
 
+The import tag can also be used to import css files that will be included in the final html page (as inline styles tags).
+Example:
+
+```jsx
+<Import src="/components/counter.css" />
+```
+
+They will appear once per render and they will automativally not be hydrated by client (since they don't have any interactivity)
+They are not css modules and therefore you have to use normal css syntax techniques like nesting for scoping.
+Example:
+
+```css
+.counter {
+  p {
+    color: red;
+    /* this will be a scoped style */
+  }
+}
+```
+
+You can also use the Import tag to import js files that will be executed on the browser.
+
+```jsx
+<Import src="/components/counter.js" />
+```
+
+They will be executed once per render and they will automativally not be hydrated by client (since they don't have any interactivity)
+If they are local they will be included in the final html page (as script tags).
+If they are remote they will be fetched from the remote url and then included in the final html page (as external src script tags).
+
 ## Limitatations
 
-- You still have to manually hydrate components
-- We still need a node_modules for Vite to work (unfortunately there's no remote imports feature in vite.config.js)
 - This is experimental and not yet tested in big applications
 - You still manually need to hydrate interactive components in main.jsx but it's very easy to do it.
-- CSS is still not modular
 
 ## Suggestions and Contributions
 
@@ -155,7 +183,11 @@ Your suggestions and contributions are highly appreciated! Feel free to provide 
 
 ## Future
 
-It would be nice to implement SSG as default for no javascript and improve css modules
+It would be nice to implement SSG as default for no server side rendering and improve css modules
+See if this works without main.jsx
+Create Dynamic routes
+Create a hook to perform client side js easily
+maybe just a .js filed linked to the component (counter.js)
 
 ## Getting Started
 
