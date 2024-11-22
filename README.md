@@ -15,10 +15,10 @@ This project is a minimal template for building a server-side rendered Preact ap
 ### /client
 
 - **main.jsx**: Front-end entry point for client-side hydration and router initialization. (only if you use the MainJsx component)
-- **index.jsx**: Main HTML content; editable with Preact components to customize `<head>`, etc.
+- **index.jsx**: Main HTML content; editable with Preact components to customize `<head>`, etc. Automatically used as wrapper for routes (must accept a children)
 - **index.css**: Global styles, automatically included in `index.jsx` (only if you use the IndexCss component).
-- **home.jsx**: Main route served at `/` or `/home`.
-- **about.jsx**: Another route example served at `/about`.
+- **home.jsx**: Main route automatically served at `/` or `/home`. 
+- **about.jsx**: Another route example automatically served at `/about`.
 - **components**: Folder for components and their relative CSS modules.
 - **vite.config.js**: Client configuration file for Vite's Preact HMR.
 
