@@ -1,7 +1,7 @@
 import { registerComponent } from "./framework-utils.jsx";
 
 // HOC for interactive components
-const withInteractivity = WrappedComponent => {
+const withHydration = WrappedComponent => {
   // Check if we're on the server
   if (typeof window !== "undefined") return WrappedComponent;
 
@@ -22,4 +22,4 @@ const withInteractivity = WrappedComponent => {
   WithInteractive.displayName = `Interactive(${WrappedComponent.name})`;
   return WithInteractive;
 };
-export default withInteractivity;
+export default withHydration;

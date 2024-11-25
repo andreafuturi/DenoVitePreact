@@ -1,7 +1,7 @@
-import withInteractivity from "../lib/withInteractivity.jsx";
+import withHydration from "../lib/withHydration.jsx";
 
 function About() {
   return <>Hello, from {typeof document !== "undefined" ? "client" : "server"}</>;
 }
 
-export default withInteractivity(About);
+export default withHydration(About);

@@ -11,12 +11,12 @@ This document provides an overview of the special components and tags available 
 
 Every component is only server-side rendered by default. To make the component execute JavaScript code on the browser, you have two options:
 
-1. Use the `withInteractivity` HOC (ships Preact to the browser, old way -> not really recommended):
+1. Use the `withHydration` HOC (ships Preact to the browser, old way -> not really recommended):
 
 ```jsx
 // Counter: a general interactive component
 import { useState } from "https://esm.sh/preact/hooks";
-import withInteractivity from "../../lib/withInteractivity.jsx";
+import withHydration from "../../lib/withHydration.jsx";
 
 const Counter = ({ start }) => {
   const [count, setCount] = useState(start || 0);
@@ -28,7 +28,7 @@ const Counter = ({ start }) => {
   );
 };
 
-export default withInteractivity(Counter);
+export default withHydration(Counter);
 ```
 
 This is useful for complex logic that needs to be executed on the browser, like animations or interactions. You will also need to add the component to the `interactiveComponents` array in the `client/main.jsx` file to make it hydrate.
