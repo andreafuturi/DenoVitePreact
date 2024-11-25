@@ -24,11 +24,17 @@ And meny others coming:
 - ✅ **Middleware Support**: Thanks to Deno
 - ✅ **TypeScript Support**: Thanks to Deno
 - ✅ **Dynamic Metadata Management**: Route-specific titles and meta tags.
-- ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default.
+- ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default. You choose what gets in in index.jsx and what not.
 - ❌ **Serverside Data Fetch**: Async components are not supported in Preact, trying to implement async routes like saw in fresh but it's not working properly right now. Use normal api fetch for data fetching.
 - ❌ **Dynamic & Nested Routing**: Support for dynamic parameters (e.g., /post/[id]).
 - ❌ **Global Error Handling**: Custom component for server errors
 - ❌ **Static Site Generation (SSG)**: Smartly pre-render routes for blazing-fast delivery. Server will automatically knows when he has to rerender.
+
+## Why? 💡
+
+- Faster, lighter, and simpler than most frameworks.
+- Perfect for SEO-focused, high-performance web apps.
+- Combines the best of server rendering and minimal client-side interaction.
 
 ## Getting Started
 
@@ -53,7 +59,7 @@ The structure separates server and client code for clarity.
 
 ### /client
 
-- **main.jsx**: Front-end entry point for client-side hydration and router initialization. (only if you use the MainJsx component)
+- **main.jsx**: Front-end entry point for client-side hydration and router initialization. (imported with MainJsx component)
 - **index.jsx**: Main HTML content; editable with Preact components to customize `<head>`, etc. Automatically used as wrapper for routes (must accept a children)
 - **index.css**: Global styles, automatically included in `index.jsx` (imported with IndexCss component).
 - **home/home.jsx**: Main route automatically served at `/` or `/home`.
@@ -234,11 +240,9 @@ Example:
 }
 ```
 
-## Why? 💡
+## Change Preact to React
 
-- Faster, lighter, and simpler than most frameworks.
-- Perfect for SEO-focused, high-performance web apps.
-- Combines the best of server rendering and minimal client-side interaction.
+If you want to switch between Preact and React you can easily do it by removing deno.json file, removing the Preact hmr plugin from vite.config.js and replacing render and hydrate functions with React ones.
 
 ## Limitatations
 
