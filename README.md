@@ -1,4 +1,4 @@
-# DenoVitePreact
+# Singularity
 
 Singularity is a minimal, modern framework for building server-side rendered (SSR) and partially hydrated web applications with (P)React. It combines the power of Deno, JSX and Vite to deliver fast, SEO-friendly, and lightweight web apps with a focus on seamless Developer Experience.
 
