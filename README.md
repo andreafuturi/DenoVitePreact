@@ -80,9 +80,9 @@ When everything is working properly you will soon be able to deploy to denodeplo
 
 ### Interactivity
 
-The interactive tag enables client-side interactivity. Every component is only server side rendered by default. To make the component executes javascript code on the browser you have 2 options:
+Every component is only server side rendered by default. To make the component executes javascript code on the browser you have 2 options:
 
-- Use the withInteractivity HOC:
+- Use the withInteractivity HOC (ships Preact to the browser, old way -> not really recommended):
 
 ```jsx
 //Counter a general interactive component
@@ -116,7 +116,7 @@ hydrateInteractiveComponents(document, interactiveComponents);
 
 Or
 
-- Use the Import tag
+- Use the ultra lightweight Import tag (no Preact needed, recommended):
 
 ```jsx
 function doSomethingOnBrowser() {
@@ -142,6 +142,19 @@ Otherwise you can just declare it and use it later
 <div onchange="doSomethingOnBrowser()"></div>
 ```
 
+You can also use the Import tag to import js files that will be executed on the browser.
+
+```jsx
+//path starts from client folder
+<Import src="/components/counter.js" />
+```
+
+They will be executed once per render and they will automativally not be hydrated by client (since they don't have any interactivity) even if they are inside interactive components.
+If they are local they will be included in the final html page (as script tags).
+If they are remote they will be fetched from the remote url and then included in the final html page (as external src script tags).
+
+### Styling
+
 The import tag can also be used to import css files that will be included in the final html page (as inline styles tags).
 Example:
 
@@ -161,16 +174,6 @@ Example:
   }
 }
 ```
-
-You can also use the Import tag to import js files that will be executed on the browser.
-
-```jsx
-<Import src="/components/counter.js" />
-```
-
-They will be executed once per render and they will automativally not be hydrated by client (since they don't have any interactivity)
-If they are local they will be included in the final html page (as script tags).
-If they are remote they will be fetched from the remote url and then included in the final html page (as external src script tags).
 
 ## Limitatations
 
