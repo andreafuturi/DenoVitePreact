@@ -82,14 +82,21 @@ And meny others:
 
 While these features are not implemented yet.
 
+- 🔄 **Serverside Data Fetch** ❌
+
+_Currently only classic client Api fetching is allowed._
+
 - 🔄 **Dynamic Routing** ❌
 
 _Support for dynamic parameters (e.g., /post/[id])._
 
 - 🛠️ **Global Error Handling** ❌
+
+
 Customizable error pages (400, 500 etc..)
 
 - 🏗️ **Static Site Generation (SSG)**  ❌
+
 Pre-render static routes for blazing-fast delivery.
 
 
