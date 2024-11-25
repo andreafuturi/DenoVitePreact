@@ -27,7 +27,7 @@ export const inlineImport = withoutHydration(({ src, selfExecute, perInstance = 
   if (typeof Deno === "undefined") return null;
   const stackLines = new Error().stack.split("\n");
   // Look for the caller's location (second line in the stack) 🔍
-  const callerLine = stackLines[3] || ""; // Index 2 because: [0] is Error, [1] is newImport, [2] is caller
+  const callerLine = stackLines[3] || ""; // Index 3 because: [0] is Error, [1] is newImport, [2] is framework-utils, [3] is caller
   const filePathMatch = callerLine.match(/file:\/\/\/(.*?\.jsx?):/);
   const filePath = filePathMatch ? filePathMatch[1] : "Unknown path";
   const fileDir = filePath.split("/").slice(0, -1).join("/");
