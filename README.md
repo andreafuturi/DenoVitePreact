@@ -2,9 +2,10 @@
 
 Singularity is a minimal, modern framework for building server-side rendered (SSR) and partially hydrated web applications with (P)React. It combines the power of Deno, JSX and Vite to deliver fast, SEO-friendly, and lightweight web apps with a focus on seamless Developer Experience.
 
-Deno manages server-side rendering, while Vite handles client-side hydration, HMR reload and production build. 
+Deno manages server-side rendering, while Vite handles client-side hydration, HMR reload and production build.
 
 ## Features
+
 - 🔥 **Zero Setup**: Clone, code, and deploy. No boilerplate needed.
 - 🖥️ **Server-Side Rendering (SSR)**: Better SEO and faster initial load by default.
 - 💧 **Partial Hydration**: Easily hydrate only where necessary, saving resources.
@@ -19,7 +20,8 @@ Deno manages server-side rendering, while Vite handles client-side hydration, HM
 - 🚀 **Deno Deploy Ready**: Deploy seamlessly with Deno Deploy.
 
 And meny others coming:
-- ✅ **Middleware Support**: Thanks to Deno 
+
+- ✅ **Middleware Support**: Thanks to Deno
 - ✅ **TypeScript Support**: Thanks to Deno
 - ✅ **Dynamic Metadata Management**: Route-specific titles and meta tags.
 - ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default.
@@ -37,10 +39,9 @@ And meny others coming:
 5. When ready build the client-side code with `npm run build`.
 6. Deploy to Deno deploy and select server/main.jsx as entry point (might add a script in package.json in the future)
 
-
 ## Project Structure
-The structure separates server and client code for clarity.
 
+The structure separates server and client code for clarity.
 
 ### /server
 
@@ -55,7 +56,7 @@ The structure separates server and client code for clarity.
 - **main.jsx**: Front-end entry point for client-side hydration and router initialization. (only if you use the MainJsx component)
 - **index.jsx**: Main HTML content; editable with Preact components to customize `<head>`, etc. Automatically used as wrapper for routes (must accept a children)
 - **index.css**: Global styles, automatically included in `index.jsx` (imported with IndexCss component).
-- **home/home.jsx**: Main route automatically served at `/` or `/home`. 
+- **home/home.jsx**: Main route automatically served at `/` or `/home`.
 - **about.jsx**: Another route example automatically served at `/about`.
 - **components**: Folder for components and their relative CSS/JS modules.
 - **vite.config.js**: Client configuration file for Vite's Preact HMR.
@@ -63,17 +64,16 @@ The structure separates server and client code for clarity.
   _Add client-side files (e.g., front-end functions, UI components, or static files) here._
 
 ### Routing
+
 filename.ext inside client folder will be automatically served at /filename.ext
 
 Tihs is to prevent relative and absolute paths hell.
 
 filename.jsx inside client folder will be automatically rendered and served at /filename
 
-
 filename/filename.jsx inside client folder will be automatically rendereda and served at /filename
 
 This is to prevent index hell, where every file in your project is called index. The frameworks enforces you to either have a filename.jsx on client or filename/filename.jsx. any index.jsx apart from the main client/index.jsx will be ingored.
-
 
 ## Minimal Project Structure
 
@@ -168,16 +168,24 @@ Or
 - Use the ultra lightweight Import tag (no Preact needed, recommended):
 
 ```jsx
-function doSomethingOnBrowser() {
-  console.log("hello");
-}
-function Component() {
+import { inlineImport } from "../../lib/framework-utils.jsx";
+
+export default function LightCounter() {
   return (
-    <div>
-      <h1>Hello</h1>
-      <Import src={doSomethingOnBrowser} selfExecute={true} />
-    </div>
+    <counter>
+      <span class="count">0</span>
+      <button>Count! 🚀</button>
+      {inlineImport({ src: counterLogic, selfExecute: true })}
+    </counter>
   );
+}
+
+function counterLogic() {
+  // 🎯 Classic js counter logic
+  const countView = document.querySelector("counter .count");
+  let count = 0;
+  const updateCount = () => (countView.textContent = ++count);
+  document.querySelector("counter button").addEventListener("click", updateCount);
 }
 ```
 
@@ -195,7 +203,8 @@ You can also use the Import tag to import js files that will be executed on the 
 
 ```jsx
 //path starts from client folder
-<Import src="/components/counter.js" />
+Component content
+{inlineImport({ src: "counter.js" })}
 ```
 
 They will be executed once per render and they will automativally not be hydrated by client (since they don't have any interactivity) even if they are inside interactive components.
@@ -208,7 +217,8 @@ The import tag can also be used to import css files that will be included in the
 Example:
 
 ```jsx
-<Import src="/components/counter.css" />
+{inlineImport({ src: "counter.css" })}
+Component content
 ```
 
 They will appear once per render and they will automativally not be hydrated by client (since they don't have any interactivity)
@@ -225,10 +235,10 @@ Example:
 ```
 
 ## Why? 💡
+
 - Faster, lighter, and simpler than most frameworks.
 - Perfect for SEO-focused, high-performance web apps.
 - Combines the best of server rendering and minimal client-side interaction.
-
 
 ## Limitatations
 
