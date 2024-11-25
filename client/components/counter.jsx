@@ -1,5 +1,5 @@
 import { useState } from "https://esm.sh/preact/hooks";
-import withInteractivity from "../../lib/withInteractivity.jsx";
+import withHydration from "../../lib/withHydration.jsx";
 import counterOnLoad from "./counter.js";
 import { inlineImport } from "../../lib/framework-utils.jsx";
 
@@ -15,4 +15,4 @@ const Counter = ({ start }) => {
   );
 };
 
-export default withInteractivity(Counter);
+export default withHydration(Counter);
