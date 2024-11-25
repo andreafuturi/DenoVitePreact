@@ -7,98 +7,28 @@ Deno manages server-side rendering, while Vite handles client-side hydration, HM
 You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default.
 
 ## Features
-- 🔥 **0-setup** ✅
+- 🔥 **Zero Setup**: Clone, code, and deploy. No boilerplate needed.
+- 🖥️ **Server-Side Rendering (SSR)**: Better SEO and faster initial load by default.
+- 💧 **Partial Hydration**: Easily hydrate only where necessary, saving resources.
+- 🧩 **Minimal Interactivity**: Execute simple client-side logic without hydrating the component.
+- 🚗 **Lightweight SPA Navigation**: SPA-like experience with just 1.5 KB of JavaScript.
+- 🌐 **File-Based Routing**: Automatically map files to routes and apis.
+- 🎨 **Scoped Styling**: Easiliy import CSS files for clean and modular CSS.
+- 🌟 **Preact or React**: Flexibility to choose based on your needs.
+- 🤖 **Automatic static files serving:** Easily serve static assets like images and files
+- 📁 **Clear separation of server code and client code**: /server/main.jsx serves client/index.jsx
+- 🔀 **Automatic Development/Production Switching**: In production minified and otpimized css and js are used.
+- 🚀 **Deno Deploy Ready**: Deploy seamlessly with Deno Deploy.
 
-_No boilerplate or extra configurations needed. Clone and start coding._
-
-
-- 🖥️ **Server-Side Rendering (SSR) First** ✅
-
-_Better SEO & Better performances._
-
-
-- 💧 **Partial hydration** ✅
-
-_Only specific components are hydrated on the client._
-
-
-- 🧩 **Minimal Interactivity** ✅
-
-_Execute simple client-side logic without hydrating the whole component._
-
-- 🎨 **CSS and JS Modules Import** ✅
-
-_Use `<Import>` to include CSS and JS files in your components in a modular way._
-
-
-
-- 🚗 **Lightweight SPA-Like Navigation** ✅
-
-_Enables SPA-like navigation with minimal JavaScript (no hydration required). Easily optout if not needed_
-
-
-
-- 📁 **File based routing** ✅
-
-_Easily opt-out if you have an easy landing page or single page app_
-
-
-
-- 🌐 **API Route Handling**  ✅
-
-_Easily define server-side API routes for data fetching._
-
-
-
-
-- 🤖 **Automatic static files serving** ✅
-
-_Easily serve static assets like images and files._
-
-- 🔀 **Automatic Development/Production Switching** ✅
-
-_Smart detection for dev and prod environments._
-
-- 🧠 **Dynamic Head Management** ✅
-
-_Components like <Title> allow route-specific metadata management._
-
-- 🌟 **(P)React Compatibility** ✅
-
-Easily switch between React and Preact based on your needs
-
-- 🚀 **Deno Deploy Support**  ✅
-
-_Ready for deployment on Deno Deploy with minimal setup._
-
-And meny others:
-- 🛡️ **Middleware Support** ✅
-- 🛡️ **TypeScript Support** ✅
-- ✂️ **Scoped Styling Support** ✅
-- **Clear separation of server code and client code** ✅
-
-
-
-
-While these features are not implemented yet.
-
-- 🔄 **Serverside Data Fetch** ❌
-
-_Currently only classic client Api fetching is allowed._
-
-- 🔄 **Dynamic Routing** ❌
-
-_Support for dynamic parameters (e.g., /post/[id])._
-
-- 🛠️ **Global Error Handling** ❌
-
-
-Customizable error pages (400, 500 etc..)
-
-- 🏗️ **Static Site Generation (SSG)**  ❌
-
-Pre-render static routes for blazing-fast delivery.
-
+And meny others coming:
+- ✅ **Middleware Support**: Thanks to Deno 
+- ✅ **TypeScript Support**: Thanks to Deno
+- ✅ **Dynamic Metadata Management**: Route-specific titles and meta tags.
+- ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default.
+- ❌ **Serverside Data Fetch**: Async components are not supported in Preact, trying to implement async routes like saw in fresh but it's not working properly right now. Use normal api fetch for data fetching.
+- ❌ **Dynamic Routing**: Support for dynamic parameters (e.g., /post/[id]).
+- ❌ **Global Error Handling**: Custom component for server errors
+- ❌ **Static Site Generation (SSG)**: Smartly pre-render routes for blazing-fast delivery. Server will automatically knows when he has to rerender.
 
 ## Getting Started
 
@@ -284,6 +214,12 @@ Example:
   }
 }
 ```
+
+## Why? 💡
+- Faster, lighter, and simpler than most frameworks.
+- Perfect for SEO-focused, high-performance web apps.
+- Combines the best of server rendering and minimal client-side interaction.
+
 
 ## Limitatations
 
