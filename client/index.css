@@ -9,6 +9,7 @@
   --color-text: #18181b;
   --color-text-light: #71717a;
   --color-white: #ffffff;
+  --color-primary-rgb: 79, 70, 229; /* RGB values for primary color */
   
   /* Spacing */
   --space-xs: 0.5rem;
