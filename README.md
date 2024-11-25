@@ -165,7 +165,7 @@ function Index({children) {
       <body>
        <Menu />
        <router>
-        {children}
+        <route path={globalThis.location.pathname}>{children}</route>
        </router>
       </body>
     </html>
