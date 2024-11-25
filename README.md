@@ -1,10 +1,8 @@
 # DenoVitePreact
 
-This project is a minimal template for building a server-side rendered (P)React application.
+Singularity is a minimal, modern framework for building server-side rendered (SSR) and partially hydrated web applications with (P)React. It combines the power of Deno, JSX and Vite to deliver fast, SEO-friendly, and lightweight web apps with a focus on seamless Developer Experience.
 
 Deno manages server-side rendering, while Vite handles client-side hydration, HMR reload and production build. 
-
-You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default.
 
 ## Features
 - 🔥 **Zero Setup**: Clone, code, and deploy. No boilerplate needed.
@@ -26,7 +24,7 @@ And meny others coming:
 - ✅ **Dynamic Metadata Management**: Route-specific titles and meta tags.
 - ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default.
 - ❌ **Serverside Data Fetch**: Async components are not supported in Preact, trying to implement async routes like saw in fresh but it's not working properly right now. Use normal api fetch for data fetching.
-- ❌ **Dynamic Routing**: Support for dynamic parameters (e.g., /post/[id]).
+- ❌ **Dynamic & Nested Routing**: Support for dynamic parameters (e.g., /post/[id]).
 - ❌ **Global Error Handling**: Custom component for server errors
 - ❌ **Static Site Generation (SSG)**: Smartly pre-render routes for blazing-fast delivery. Server will automatically knows when he has to rerender.
 
@@ -64,7 +62,18 @@ The structure separates server and client code for clarity.
 
   _Add client-side files (e.g., front-end functions, UI components, or static files) here._
 
-  filename.jsx inside client folder will be automatically served at /filename
+### Routing
+filename.ext inside client folder will be automatically served at /filename.ext
+
+Tihs is to prevent relative and absolute paths hell.
+
+filename.jsx inside client folder will be automatically rendered and served at /filename
+
+
+filename/filename.jsx inside client folder will be automatically rendereda and served at /filename
+
+This is to prevent index hell, where every file in your project is called index. The frameworks enforces you to either have a filename.jsx on client or filename/filename.jsx. any index.jsx apart from the main client/index.jsx will be ingored.
+
 
 ## Minimal Project Structure
 
