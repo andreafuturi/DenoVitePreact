@@ -1,8 +1,103 @@
 # DenoVitePreact
 
-This project is a minimal template for building a server-side rendered Preact application. Deno manages server-side rendering, while Vite handles client-side hydration, HMR reload and production build. You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default. The structure separates server and client code for clarity.
+This project is a minimal template for building a server-side rendered (P)React application.
+
+Deno manages server-side rendering, while Vite handles client-side hydration, HMR reload and production build. 
+
+You can also integrate a [lightweight client router](https://github.com/andreafuturi/lightweight-router) for SPA navigation with only 1.5 KB of JS by default.
+
+## Features
+- 🔥 **0-setup** ✅
+
+_No boilerplate or extra configurations needed. Clone and start coding._
+
+
+- 🖥️ **Server-Side Rendering (SSR) First** ✅
+
+_Better SEO & Better performances._
+
+
+- 💧 **Partial hydration** ✅
+
+_Only specific components are hydrated on the client._
+
+
+- 🧩 **Minimal Interactivity** ✅
+
+_Execute simple client-side logic without hydrating the whole component._
+
+- 🎨 **CSS and JS Modules Import** ✅
+
+_Use `<Import>` to include CSS and JS files in your components in a modular way._
+
+
+
+- 🚗 **Lightweight SPA-Like Navigation** ✅
+
+_Enables SPA-like navigation with minimal JavaScript (no hydration required). Easily optout if not needed_
+
+
+
+- 📁 **File based routing** ✅
+
+_Easily opt-out if you have an easy landing page or single page app_
+
+
+
+- 🌐 **API Route Handling**  ✅
+
+_Easily define server-side API routes for data fetching._
+
+
+
+
+- 🤖 **Automatic static files serving** ✅
+
+_Easily serve static assets like images and files._
+
+- 🔀 **Automatic Development/Production Switching** ✅
+
+_Smart detection for dev and prod environments._
+
+- 🧠 **Dynamic Head Management** ✅
+
+_Components like <Title> allow route-specific metadata management._
+
+- 🌟 **(P)React Compatibility** ✅
+
+Easily switch between React and Preact based on your needs
+
+- 🚀 **Deno Deploy Support**  ✅
+
+_Ready for deployment on Deno Deploy with minimal setup._
+
+And meny others:
+- 🛡️ **Middleware Support** ✅
+- 🛡️ **TypeScript Support** ✅
+- ✂️ **Scoped Styling Support** ✅
+- **Clear separation of server code and client code** ✅
+
+
+
+
+While these features are not implemented yet.
+
+- 🔄 **Dynamic Routing** ❌
+
+_Support for dynamic parameters (e.g., /post/[id])._
+
+- 🛠️ **Global Error Handling** ❌
+Customizable error pages (400, 500 etc..)
+
+- 🏗️ **Static Site Generation (SSG)**  ❌
+Pre-render static routes for blazing-fast delivery.
+
+
+
 
 ## Project Structure
+The structure separates server and client code for clarity.
+
 
 ### /server
 
@@ -16,10 +111,10 @@ This project is a minimal template for building a server-side rendered Preact ap
 
 - **main.jsx**: Front-end entry point for client-side hydration and router initialization. (only if you use the MainJsx component)
 - **index.jsx**: Main HTML content; editable with Preact components to customize `<head>`, etc. Automatically used as wrapper for routes (must accept a children)
-- **index.css**: Global styles, automatically included in `index.jsx` (only if you use the IndexCss component).
-- **home.jsx**: Main route automatically served at `/` or `/home`. 
+- **index.css**: Global styles, automatically included in `index.jsx` (imported with IndexCss component).
+- **home/home.jsx**: Main route automatically served at `/` or `/home`. 
 - **about.jsx**: Another route example automatically served at `/about`.
-- **components**: Folder for components and their relative CSS modules.
+- **components**: Folder for components and their relative CSS/JS modules.
 - **vite.config.js**: Client configuration file for Vite's Preact HMR.
 
   _Add client-side files (e.g., front-end functions, UI components, or static files) here._
