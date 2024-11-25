@@ -45,8 +45,8 @@ The structure separates server and client code for clarity.
 
 ### /server
 
-- **main.jsx**: Entry point for the server-side application (select this with Deno Deploy).
-- **api/admin.js**: Example API route, automatically served at `/api/admin` or `/api/admin/`.
+- **main.jsx**: Entry point for the server-side application.
+- **api/**: API routeS, automatically served at `/api/`
 - **deno.json**: Server configuration file (only needed if you want to use Preact).
 
   _Add any additional server logic files here._
