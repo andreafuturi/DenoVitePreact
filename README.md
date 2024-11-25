@@ -100,6 +100,14 @@ Customizable error pages (400, 500 etc..)
 Pre-render static routes for blazing-fast delivery.
 
 
+## Getting Started
+
+1. Clone this repository.
+2. Install dependencies with `npm install`.
+3. Start the application with `npm start`.
+4. Visit localhost:8000 and see your code changes in real time.
+5. When ready build the client-side code with `npm run build`.
+6. Deploy to Deno deploy and select server/main.jsx as entry point (might add a script in package.json in the future)
 
 
 ## Project Structure
@@ -293,13 +301,5 @@ See if this works without main.jsx
 Create Dynamic routes
 Create a hook to perform client side js easily
 maybe just a .js filed linked to the component (counter.js)
-
-## Getting Started
-
-1. Clone this repository.
-2. Install dependencies with `npm install`.
-3. Start the application on localhost with `npm start`.
-4. When ready build the client-side code with `npm run build`.
-5. Deploy to Deno deploy (might add a script in package.json in the future)
 
 Happy coding!
