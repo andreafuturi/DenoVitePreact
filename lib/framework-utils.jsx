@@ -73,51 +73,6 @@ export const inlineImport = withoutHydration(({ src, selfExecute, perInstance = 
   }
 });
 
-//Add perInstance prop to make sure the import is executed once per instance instead of once per render
-export const Import = withoutHydration(({ src, selfExecute, perInstance = false }) => {
-  try {
-    if (typeof Deno === "undefined") return null;
-
-    // Initialize tracking Set if not exists 🔄
-    globalThis.importedResources = globalThis.importedResources || new Set();
-
-    // Generate unique key for functions or use src path 🔑
-    const resourceKey = typeof src === "function" ? src.toString() : src;
-
-    // Check if already imported ✨
-    if (globalThis.importedResources.has(resourceKey) && !perInstance) {
-      return null;
-    }
-
-    globalThis.importedResources.add(resourceKey);
-
-    // Handle different import types
-    if (typeof src === "function")
-      return (
-        <script>
-          {src.toString().replaceAll('"', "`")}
-          {selfExecute && `${src.name}()`}
-        </script>
-      );
-    if (src.startsWith("http")) return <script rel="preconnect" type="module" src={src}></script>;
-
-    // Handle file imports with error handling 🛡️
-    if (src.endsWith(".css") || src.endsWith(".js")) {
-      try {
-        const filePath = Deno.cwd() + "/client/" + src;
-        const content = Deno.readTextFileSync(filePath).replaceAll('"', "`");
-        return src.endsWith(".css") ? <style>{content}</style> : <script>{content}</script>;
-      } catch (err) {
-        console.error(`🚨 Failed to read file ${src}:`, err);
-        return <ErrorComponent error={`Failed to load resource: ${src}`} />;
-      }
-    }
-  } catch (err) {
-    console.error("🚨 Import component error:", err);
-    return <ErrorComponent error={`Failed to process import: ${err.message}`} />;
-  }
-});
-
 function MainJsx({ isDev = false }) {
   return (
     <>
@@ -178,9 +133,9 @@ function addRouteTitle(appTitle) {
 const Title = ({ children }) => (
   <>
     <title>{addRouteTitle(children)}</title>
-    <Import src={addRouteTitle} />
-    <Import src={updateDocumentTitle} />
-    <Import src={handleRouteChange} selfExecute />
+    {inlineImport({ src: addRouteTitle })}
+    {inlineImport({ src: updateDocumentTitle })}
+    {inlineImport({ src: handleRouteChange, selfExecute: true })}
   </>
 );
 //Error component
