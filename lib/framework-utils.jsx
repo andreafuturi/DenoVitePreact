@@ -1,5 +1,3 @@
-import { withoutHydration } from "./server-components.jsx";
-
 const ClientOnly = ({ children }) => {
   return typeof document !== "undefined" ? children : null;
 };
@@ -14,6 +12,66 @@ export const registerComponent = Component => {
   COMPONENT_REGISTRY.set(id, Component);
   return id;
 };
+/**
+ * HOC to prevent component hydration 🛡️
+ */
+export const withoutHydration = WrappedComponent => {
+  const WithoutHydration = props => {
+    return <static>{WrappedComponent(props)}</static>;
+  };
+  WithoutHydration.displayName = `WithoutHydration(${WrappedComponent.name})`;
+  return WithoutHydration;
+};
+
+export const inlineImport = withoutHydration(({ src, selfExecute, perInstance = false }) => {
+  if (typeof Deno === "undefined") return null;
+  const stackLines = new Error().stack.split("\n");
+  // Look for the caller's location (second line in the stack) 🔍
+  const callerLine = stackLines[3] || ""; // Index 2 because: [0] is Error, [1] is newImport, [2] is caller
+  const filePathMatch = callerLine.match(/file:\/\/\/(.*?\.jsx?):/);
+  const filePath = filePathMatch ? filePathMatch[1] : "Unknown path";
+  const fileDir = filePath.split("/").slice(0, -1).join("/");
+  const relativePath = ("/" + fileDir).replace(Deno.cwd(), "");
+  try {
+    // Initialize tracking Set if not exists 🔄
+    globalThis.importedResources = globalThis.importedResources || new Set();
+
+    // Generate unique key for functions or use src path 🔑
+    const resourceKey = typeof src === "function" ? src.toString() : src;
+
+    // Check if already imported ✨
+    if (globalThis.importedResources.has(resourceKey) && !perInstance) {
+      return null;
+    }
+
+    globalThis.importedResources.add(resourceKey);
+
+    // Handle different import types
+    if (typeof src === "function")
+      return (
+        <script>
+          {src.toString().replaceAll('"', "`")}
+          {selfExecute && `${src.name}()`}
+        </script>
+      );
+    if (src.startsWith("http")) return <script rel="preconnect" type="module" src={src} />;
+
+    // Handle file imports with error handling 🛡️
+    if (src.endsWith(".css") || src.endsWith(".js")) {
+      try {
+        const filePath = Deno.cwd() + relativePath + "/" + src;
+        const content = Deno.readTextFileSync(filePath).replaceAll('"', "`");
+        return src.endsWith(".css") ? <style>{content}</style> : <script>{content}</script>;
+      } catch (err) {
+        console.error(`🚨 Failed to read file ${src}:`, err);
+        return <ErrorComponent error={`Failed to load resource: ${src}`} />;
+      }
+    }
+  } catch (err) {
+    console.error("🚨 Import component error:", err);
+    return <ErrorComponent error={`Failed to process import: ${err.message}`} />;
+  }
+});
 
 //Add perInstance prop to make sure the import is executed once per instance instead of once per render
 export const Import = withoutHydration(({ src, selfExecute, perInstance = false }) => {

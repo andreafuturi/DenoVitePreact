@@ -98,3 +98,39 @@ counter span {
   display: block;
   margin: var(--space-sm) 0;
 }
+
+.counter, .light-counter {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--component-bg, #f5f5f5);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary, #333);
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background: var(--accent-color, #0070f3);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* 🎨 Different styling for light counter */
+.light-counter {
+  background: var(--component-bg-alt, #e3f2fd);
+  
+  button {
+    background: var(--accent-color-alt, #00c853);
+  }
+}

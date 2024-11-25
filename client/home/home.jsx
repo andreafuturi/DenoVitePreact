@@ -1,6 +1,6 @@
 import { useEffect } from "https://esm.sh/preact/hooks";
-import Counter from "../components/counter.jsx";
-import { Import } from "../../lib/framework-utils.jsx";
+import Counter from "../components/Counter.jsx";
+import { inlineImport } from "../../lib/framework-utils.jsx";
 
 export default function Home() {
   // useEffect(async () => {
@@ -12,7 +12,7 @@ export default function Home() {
       <Counter start={10} />
       <Counter start={3} />
       <upload />
-      <Import src="home/home.js" />
+      {inlineImport({ src: "home.js" })}
     </home>
   );
 }

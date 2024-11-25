@@ -1,5 +1,5 @@
 import { hydrate } from "https://esm.sh/preact";
-import { registerComponent } from "./framework-utils";
+import { registerComponent } from "./framework-utils.jsx";
 
 const interactiveComponents = [];
 const hydratedComponents = new Set();
@@ -7,9 +7,9 @@ const hydratedComponents = new Set();
 const hydrateInteractiveComponents = (elementNode, components) => {
   console.log("🔄 Starting hydration process...");
 
-  // Save original content of no-hydration elements
+  // Save original content of static elements
   const preserveServerOnlyContent = root => {
-    const serverOnlyElements = (root || document).querySelectorAll("[data-server-only]");
+    const serverOnlyElements = (root || document).querySelectorAll("static");
     serverOnlyElements.forEach(el => {
       // Save original content immediately after hydration
       const originalContent = el.innerHTML;
