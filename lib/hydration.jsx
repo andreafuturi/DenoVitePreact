@@ -34,8 +34,8 @@ const hydrateInteractiveComponents = (elementNode, components) => {
     });
   }
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
+  const observer = new IntersectionObserver(async entries => {
+    entries.forEach(async entry => {
       const { target } = entry;
       if (hydratedComponents.has(target.id)) return;
 
@@ -44,7 +44,8 @@ const hydrateInteractiveComponents = (elementNode, components) => {
       if (entry.isIntersecting && component) {
         const props = JSON.parse(target.getAttribute("props") || "{}");
         preserveServerOnlyContent(target);
-        hydrate(<component.function {...props} />, target);
+        const ComponentToHydrate = component.function;
+        hydrate(<ComponentToHydrate {...props} />, target);
         hydratedComponents.add(target.id);
       }
     });

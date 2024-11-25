@@ -15,39 +15,48 @@ export const registerComponent = Component => {
   return id;
 };
 
-export const Import = withoutHydration(({ src, selfExecute }) => {
-  //this should be in withoutHydration
-  if (typeof Deno === "undefined") return null;
+//Add perInstance prop to make sure the import is executed once per instance instead of once per render
+export const Import = withoutHydration(({ src, selfExecute, perInstance = false }) => {
+  try {
+    if (typeof Deno === "undefined") return null;
 
-  // Initialize tracking Set if not exists 🔄
-  globalThis.importedResources = globalThis.importedResources || new Set();
+    // Initialize tracking Set if not exists 🔄
+    globalThis.importedResources = globalThis.importedResources || new Set();
 
-  // Generate unique key for functions or use src path 🔑
-  const resourceKey = typeof src === "function" ? src.toString() : src;
+    // Generate unique key for functions or use src path 🔑
+    const resourceKey = typeof src === "function" ? src.toString() : src;
 
-  // Check if already imported ✨
-  if (globalThis.importedResources.has(resourceKey)) {
-    return null;
-  }
+    // Check if already imported ✨
+    if (globalThis.importedResources.has(resourceKey) && !perInstance) {
+      return null;
+    }
 
-  globalThis.importedResources.add(resourceKey);
+    globalThis.importedResources.add(resourceKey);
 
-  // Handle different import types
-  if (typeof src === "function")
-    return (
-      <script>
-        {src.toString().replaceAll('"', "`")}
-        {selfExecute && `${src.name}()`}
-      </script>
-    );
-  if (src.startsWith("http")) return <script rel="preconnect" type="module" src={src}></script>;
+    // Handle different import types
+    if (typeof src === "function")
+      return (
+        <script>
+          {src.toString().replaceAll('"', "`")}
+          {selfExecute && `${src.name}()`}
+        </script>
+      );
+    if (src.startsWith("http")) return <script rel="preconnect" type="module" src={src}></script>;
 
-  // Handle file imports
-  if (src.endsWith(".css")) {
-    return <style>{Deno.readTextFileSync(Deno.cwd() + "/client/" + src).replaceAll('"', "`")}</style>;
-  }
-  if (src.endsWith(".js")) {
-    return <script>{Deno.readTextFileSync(Deno.cwd() + "/client/" + src).replaceAll('"', "`")}</script>;
+    // Handle file imports with error handling 🛡️
+    if (src.endsWith(".css") || src.endsWith(".js")) {
+      try {
+        const filePath = Deno.cwd() + "/client/" + src;
+        const content = Deno.readTextFileSync(filePath).replaceAll('"', "`");
+        return src.endsWith(".css") ? <style>{content}</style> : <script>{content}</script>;
+      } catch (err) {
+        console.error(`🚨 Failed to read file ${src}:`, err);
+        return <ErrorComponent error={`Failed to load resource: ${src}`} />;
+      }
+    }
+  } catch (err) {
+    console.error("🚨 Import component error:", err);
+    return <ErrorComponent error={`Failed to process import: ${err.message}`} />;
   }
 });
 
@@ -90,10 +99,18 @@ const fastrefresh = `((l) => {
 })(location);`;
 
 function updateDocumentTitle() {
-  document.title = addRouteTitle("App Name");
+  try {
+    document.title = addRouteTitle("App Name");
+  } catch (err) {
+    console.error("🚨 Failed to update document title:", err);
+  }
 }
 function handleRouteChange() {
-  globalThis.addEventListener("popstate", updateDocumentTitle);
+  try {
+    globalThis.addEventListener("popstate", updateDocumentTitle);
+  } catch (err) {
+    console.error("🚨 Failed to add route change handler:", err);
+  }
 }
 function addRouteTitle(appTitle) {
   let path = globalThis.location.pathname.split("/").filter(Boolean);
