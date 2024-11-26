@@ -15,6 +15,7 @@ Deno manages server-side rendering, while Vite handles client-side hydration, HM
 - 🧩 **Minimal Interactivity**: Execute simple client-side logic without hydrating the component.
 - 🚗 **Lightweight SPA Navigation**: SPA-like experience with just 1.5 KB of JavaScript.
 - 🌐 **File-Based Routing**: Automatically map files to routes and apis.
+- 🔗 **Dynamic & Nested Routing**: Support for dynamic parameters (e.g., /user/[id]).
 - 🎨 **Scoped Styling**: Easiliy import CSS files for clean and modular CSS.
 - 🔍 **Server-Side Data Fetch**: Fetch data from server side and pass it down like in React Server Components.
 - 🤖 **Automatic static files serving:** Easily serve static assets like images and files
@@ -29,7 +30,6 @@ And meny others coming:
 - ✅ **TypeScript Support**: Thanks to Deno
 - ✅ **Dynamic Metadata Management**: Route-specific titles and meta tags.
 - ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default. You choose what gets in in index.jsx and what not.
-- ❌ **Dynamic & Nested Routing**: Support for dynamic parameters (e.g., /post/[id]).
 - ❌ **Global Error Handling**: Custom component for server errors
 - ❌ **Static Site Generation (SSG)**: Smartly pre-render components for blazing-fast delivery. Server will automatically knows when he has to rerender them by checking if props changed.
 
@@ -47,6 +47,28 @@ And meny others coming:
 4. Visit localhost:8000 and see your code changes in real time.
 5. When ready build the client-side code with `npm run build`.
 6. Deploy to Deno deploy and select server/main.jsx as entry point (might add a script in package.json in the future)
+
+## Component Structure Example
+
+```jsx
+export default function Home() {
+  return (
+    <home>
+      {inlineImport({ src: "home.css" })}
+      <h1>Home</h1>
+      {inlineImport({ src: clientSideScript })}
+      <Counter start={10} />
+    </home>
+  );
+}
+function clientSideScript() {
+  return <script>console.log("Hello from client side")</script>;
+}
+const Counter = withInteractivity(({ start }) => {
+  const [count, setCount] = useState(start);
+  return <div onClick={() => setCount(count + 1)}>{count}</div>;
+});
+```
 
 ## Documentation
 
