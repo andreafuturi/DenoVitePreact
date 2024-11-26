@@ -2,7 +2,7 @@ import { IndexCss, MainJsx, Title } from "../lib/framework-utils.jsx";
 
 export default async function Index({ children }) {
   const { default: About } = await import("./about.jsx");
-  await fakeApi();
+  //await fakeApi();
 
   return (
     <html lang="en">
