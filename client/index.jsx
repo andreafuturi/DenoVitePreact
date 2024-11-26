@@ -1,6 +1,9 @@
 import { IndexCss, MainJsx, Title } from "../lib/framework-utils.jsx";
 
-export default function Index({ children }) {
+export default async function Index({ children }) {
+  const { default: About } = await import("./about.jsx");
+  await fakeApi();
+
   return (
     <html lang="en">
       <head>
@@ -34,8 +37,15 @@ export default function Index({ children }) {
         </menu>
         <router>
           <route path={globalThis.location.pathname}>{children}</route>
+          <route path="/about" style="display: none">
+            <About />
+          </route>
         </router>
       </body>
     </html>
   );
 }
+
+const fakeApi = async () => {
+  return new Promise(resolve => setTimeout(resolve, 4000));
+};

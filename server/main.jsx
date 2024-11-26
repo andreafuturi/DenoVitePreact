@@ -1,6 +1,6 @@
 import { refresh } from "https://deno.land/x/refresh/mod.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts";
-import { render } from "https://esm.sh/preact-render-to-string?deps=preact";
+import { renderToStringAsync as render } from "https://esm.sh/preact-render-to-string?deps=preact";
 import App from "../client/index.jsx";
 import { createServerHandler } from "../lib/server-handler.js";
 
