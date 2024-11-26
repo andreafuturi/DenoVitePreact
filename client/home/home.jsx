@@ -1,12 +1,12 @@
 import { useEffect } from "https://esm.sh/preact/hooks";
-import Counter from "../components/Counter.jsx";
+import Counter from "../components/counter.jsx";
 import { inlineImport } from "../../lib/framework-utils.jsx";
 
-export default async function Home() {
+export default function Home() {
   // useEffect(async () => {
   //   console.log(await globalThis.api.upload({ id: 123 }));
   // }, []);
-  await fakeApi();
+  // await fakeApi();
   return (
     <home>
       <h1>Home</h1>
