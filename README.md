@@ -30,6 +30,7 @@ And meny others coming:
 - ✅ **TypeScript Support**: Thanks to Deno
 - ✅ **Dynamic Metadata Management**: Route-specific titles and meta tags.
 - ✅ **Take away**: Easily optout of routing and hydration if not needed making the project 0kb js by default. You choose what gets in in index.jsx and what not.
+- ❌ **Form Handling**: Still not tested or thought about
 - ❌ **Global Error Handling**: Custom component for server errors
 - ❌ **Static Site Generation (SSG)**: Smartly pre-render components for blazing-fast delivery. Server will automatically knows when he has to rerender them by checking if props changed.
 
