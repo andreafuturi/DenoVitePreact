@@ -29,8 +29,11 @@ Deno.test("Route change hydration 🔄", async () => {
   try {
     const aboutLink = await page.$("a[href='/about']");
     aboutLink.click();
-    const hasClient = await page.evaluate(() => document.body.textContent.includes("client"));
-    //assertEquals(hasClient, true, "About page not hydrated");
+    const timeout = setTimeout(async () => {
+      const hasClient = await page.evaluate(() => document.body.textContent.includes("client"));
+      assertEquals(hasClient, true, "About page not hydrated");
+    }, 100);
+    clearTimeout(timeout);
   } finally {
     await browser.close();
   }
