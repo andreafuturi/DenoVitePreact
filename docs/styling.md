@@ -2,16 +2,16 @@
 
 ## Introduction
 
-This document provides an overview of the styling mechanism in the Singularity framework. It explains how to use the `Import` tag to include CSS files in your application.
+This document provides an overview of the styling mechanism in the Singularity framework. It explains how to use the `inlineImport` function to include CSS files in your application.
 
 ## Table of Contents
 
-- [Using the Import Tag for CSS](#using-the-import-tag-for-css)
+- [Using the inlineImport function for CSS](#using-the-inlineimport-function-for-css)
 - [Scoped Styling](#scoped-styling)
 
-## Using the Import Tag for CSS
+## Using the inlineImport function for CSS
 
-The `Import` tag can be used to import CSS files that will be included in the final HTML page as inline style tags. This helps in keeping the styles modular and scoped to specific components.
+The `inlineImport` function can be used to import CSS files that will be included in the final HTML page as inline style tags. This helps in keeping the styles modular and scoped to specific components.
 
 Example:
 

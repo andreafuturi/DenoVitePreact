@@ -5,7 +5,7 @@ const withHydration = WrappedComponent => {
   // Check if we're on the server
   if (typeof window !== "undefined") return WrappedComponent;
 
-  const WithInteractive = props => {
+  const withHydration = props => {
     // Get or create stable component ID
     const componentId = WrappedComponent.__componentId || registerComponent(WrappedComponent);
     WrappedComponent.__componentId = componentId;
@@ -19,7 +19,7 @@ const withHydration = WrappedComponent => {
     );
   };
 
-  WithInteractive.displayName = `Interactive(${WrappedComponent.name})`;
-  return WithInteractive;
+  withHydration.displayName = `withHydration(${WrappedComponent.name})`;
+  return withHydration;
 };
 export default withHydration;

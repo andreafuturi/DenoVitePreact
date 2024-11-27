@@ -65,7 +65,7 @@ export default function Home() {
 function clientSideScript() {
   return <script>console.log("Hello from client side")</script>;
 }
-const Counter = withInteractivity(({ start }) => {
+const Counter = withHydration(({ start }) => {
   const [count, setCount] = useState(start);
   return <div onClick={() => setCount(count + 1)}>{count}</div>;
 });
