@@ -14,7 +14,8 @@
     "deploy": "npm run build && npm run final",
     "publish": "rm -d -r ./node_modules && rm package-lock.json && rm server/deno.lock && git publish && npm i",
     "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./main.jsx\"></script><link rel=\"stylesheet\" href=\"./index.css\" />' > ./client/index.html",
-    "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
+    "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html",
+    "test": "deno test --allow-net --allow-env --allow-read --allow-write --allow-run"
   },
   "dependencies": {
     "preact": "^10.24.3",

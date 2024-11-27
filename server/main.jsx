@@ -22,5 +22,5 @@ const serverConfig = {
 };
 
 // Create and start server
-const handler = createServerHandler(serverConfig);
+export const handler = createServerHandler(serverConfig);
 Deno.serve(handler);

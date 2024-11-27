@@ -37,9 +37,9 @@ export default async function Index({ children }) {
         </menu>
         <router>
           <route path={globalThis.location.pathname}>{children}</route>
-          <route path="/about" style="display: none">
+          {/* <route path="/about" style="display: none">
             <About />
-          </route>
+          </route> */}
         </router>
       </body>
     </html>
